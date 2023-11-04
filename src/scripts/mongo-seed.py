@@ -1,10 +1,14 @@
 from pymongo import MongoClient
 import os
-from dotenv import load_dotenv
-from random import randint
+from dotenv import load_dotenv 
+import json
+import pathlib
 
 load_dotenv()
 
+PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
+
+# Establish a database connection with the MONGO_URI (MongoDB Atlas connection)
 client = MongoClient(os.getenv('MONGO_URI'))
 
 # Checks if the connection has been made, else make an error printout
@@ -17,11 +21,16 @@ except Exception as err:
     print('* "Failed to connect to MongoDB at', os.getenv('MONGO_URI'))
     print('Database connection error:', err) 
 
+lines = []
+
+with open(f'{PROJECT_ROOT}/src/data/lines.json', 'r') as file:
+    data = json.load(file)
+    lines = data['lines']
+
 collection = database['lines']
 
-size = len(collection.find_one({})["lines"])
-random_number = randint(0, size - 1)
+collection.insert_one({
+    'lines': lines
+})
 
-line = collection.find_one({})["lines"][random_number]
-
-print(line)
+client.close()
