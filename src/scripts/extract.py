@@ -18,8 +18,3 @@ for line in file_lines:
 with open(f'{PROJECT_ROOT}/src/data/lines.json', 'w') as file:
     json.dump(d, file)
 
-# with open('data/lines.json', 'r') as file:
-#     data = json.load(file)
-
-# for line in data['lines']:
-#     print(line)
