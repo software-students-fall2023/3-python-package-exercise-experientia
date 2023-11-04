@@ -19,9 +19,10 @@ except Exception as err:
 
 collection = database['lines']
 
-size = len(collection.find_one({})["lines"])
-random_number = randint(0, size - 1)
+def get_random_line() -> None:
+    size = len(collection.find_one({})["lines"])
+    random_number = randint(0, size - 1)
 
-line = collection.find_one({})["lines"][random_number]
+    line = collection.find_one({})["lines"][random_number]
 
-print(line)
+    print(line)
