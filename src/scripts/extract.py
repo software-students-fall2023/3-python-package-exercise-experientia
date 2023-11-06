@@ -17,4 +17,3 @@ for line in file_lines:
 
 with open(f'{PROJECT_ROOT}/src/data/lines.json', 'w') as file:
     json.dump(d, file)
-
