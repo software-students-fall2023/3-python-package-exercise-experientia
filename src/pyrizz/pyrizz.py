@@ -30,23 +30,27 @@ def get_random_line() -> None:
     print(line)
 
 def get_ai_line(category) -> str:
-    response = openai.ChatCompletion.create(
-        model = os.getenv('OPENAI_MODEL'),
-        messages =
-            [{"role": "user", "content": f"I need a {category} pick-up line."},]
-    )
+    try:
+        response = openai.ChatCompletion.create(
+            model = os.getenv('OPENAI_MODEL'),
+            messages =
+                [{"role": "user", "content": f"I need a {category} pick-up line."},]
+        )
 
-    message = response.choices[0]['message']
-    ai_line = "{}".format(message['content'])
+        message = response.choices[0]['message']
+        ai_line = "{}".format(message['content'])
 
-    collection = database['ai_generated']
+        collection = database['ai_generated']
 
-    lines = collection.find_one({})["lines"]
+        lines = collection.find_one({})["lines"]
+        
+        lines.append(ai_line)
+
+        collection.insert_one({
+            'lines': lines
+        })
+
+        return ai_line
     
-    lines.append(ai_line)
-
-    collection.insert_one({
-        'lines': lines
-    })
-
-    return ai_line
+    except Exception as err:
+        print(err)
