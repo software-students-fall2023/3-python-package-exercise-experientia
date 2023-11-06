@@ -2,12 +2,13 @@ from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
 from random import randint
-import openai
+from openai import OpenAI
 
 load_dotenv()
 
 client = MongoClient(os.getenv('MONGO_URI'))
-openai.api_key = os.getenv('OPENAI_API_KEY')
+ai_client = OpenAI()
+ai_client.api_key = os.getenv('OPENAI_API_KEY')
 
 # Checks if the connection has been made, else make an error printout
 try:
@@ -31,14 +32,14 @@ def get_random_line() -> None:
 
 def get_ai_line(category) -> str:
     try:
-        response = openai.ChatCompletion.create(
+        response = ai_client.chat.completions.create(
             model = os.getenv('OPENAI_MODEL'),
             messages =
-                [{"role": "user", "content": f"I need a {category} pick-up line."},]
+                [{"role": "user", "content": f"I need a {category} pick-up line."}]
         )
 
-        message = response.choices[0]['message']
-        ai_line = "{}".format(message['content'])
+        ai_message = response.choices[0].message.content
+        ai_line = "{}".format(ai_message)
 
         collection = database['ai_generated']
 
@@ -53,4 +54,4 @@ def get_ai_line(category) -> str:
         return ai_line
     
     except Exception as err:
-        print(err)
+        return str(err)
