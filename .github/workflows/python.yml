@@ -22,4 +22,6 @@ jobs:
           pip install pipenv
           pipenv install --dev
       # Add more steps for your tests and other tasks
-
+      - name: Test with pytest
+        run: |
+          pipenv run pytest
