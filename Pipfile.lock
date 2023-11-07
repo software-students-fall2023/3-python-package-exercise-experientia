@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d7c23440754bfa269f2840d46bb87f1c6479be2adb0edd314ce80156b7a760f5"
+            "sha256": "bb68a407d4163a327275c54eac3d6dc3424737e2845b50af29c67bb6eefb8b89"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -520,6 +520,10 @@
             "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==4.6.0"
+        },
+        "pyrizz": {
+            "editable": true,
+            "path": "."
         },
         "pytest": {
             "hashes": [

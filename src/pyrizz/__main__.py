@@ -1,16 +1,19 @@
-import pyrizz
+import pyrizz.pyrizz as pyrizz
 
 """Main function for PyRizz."""
 
 #ASCII art
 
-print(" __    " + "    ____  _            ")
-print("|__)   " + "   / __ \(_)_______    ")
-print("|   \/ " + "  / /_/ / /_  /_  /    ")
-print("    /  " + " / _, _/ / / /_/ /_    ")
-print("       " + "/_/ |_/_/ /___/___/    ")
+print(" ________  ___    ___ ________  ___  ________  ________        ")
+print("|\   __  \|\  \  /  /|\   __  \|\  \|\_____  \|\_____  \       ")
+print("\ \  \|\  \ \  \/  / | \  \|\  \ \  \\\\|___/  /|\|___/  /|      ")
+print(" \ \   ____\ \    / / \ \   _  _\ \  \   /  / /    /  / /      ")
+print("  \ \  \___|\/   / /   \ \  \\\\  \\\\ \  \ /  /_/__  /  /_/__     ")
+print("   \ \__\ __/   / /     \ \__\\\\ _\\\\ \__\\\\________\\\\________\   ")
+print("    \|__||\____/ /       \|__|\|__|\|__|\|_______|\|_______|   ")
+print("         \|____|/                                               ")
 
-print("\n\n")
+print("\n")
 
 def main():
     print("Welcome to PyRizz! Your journey to getting a date begins here...\n")
@@ -27,11 +30,14 @@ def main():
 
         print("Enter your choice: ")
         user_input = input("> ")
-
+        
         if user_input == "3":
             print("Enter a category / language: ")
             category = input("> ")
             print("\n" + pyrizz.get_ai_line(category), end = "\n\n")
+        
+        if user_input == "5": 
+            pyrizz.add_user_line()
 
         elif user_input == "q" or user_input == "Q":
             break
