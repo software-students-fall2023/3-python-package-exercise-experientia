@@ -1,4 +1,4 @@
-import pyrizz
+import pyrizz.pyrizz as pyrizz
 
 """Main function for PyRizz."""
 
