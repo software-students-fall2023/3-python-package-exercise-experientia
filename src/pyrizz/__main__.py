@@ -27,6 +27,18 @@ def main():
 
         print("Enter your choice: ")
         user_input = input("> ")
+
+        if user_input == "1":
+            print("\n" + pyrizz.get_random_line(), end = "\n\n")
+
+        if user_input == "2":
+            category_list = pyrizz.get_dev_line_categories()
+            print("Select a category: ")
+            for i, category in enumerate(category_list):
+                print(f"{i + 1}. {category}")
+
+            category_index = input("> ")
+            print("\n" + pyrizz.get_random_categorized_line(category_list[int(category_index) - 1]), end = "\n\n")
         
         if user_input == "3":
             print("Enter a category / language: ")
@@ -42,7 +54,7 @@ def main():
         print("Would you like to do something else? (y/n)")
         user_cont = input("> ")
 
-        if user_cont == "n":
+        if user_cont == "n" or user_cont == "q" or user_cont == "Q":
             break
 
         if user_cont == "y":
