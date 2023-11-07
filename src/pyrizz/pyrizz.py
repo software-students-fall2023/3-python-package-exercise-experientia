@@ -164,3 +164,21 @@ def is_offensive(text):
         return False
     
 
+def rate_line(pickup_line) -> str:
+    try:
+        if (pickup_line != ""):
+            response = openai.ChatCompletion.create(
+                model = os.getenv('OPENAI_MODEL'),
+                messages =
+                    [{"role": "user", "content": f"Don't talk as like a conversation or provide a description, just rate this pickup line from 1 to 10 with a snazzy comment: {pickup_line}"},]
+            )
+
+            message = response.choices[0]['message']
+            ai_rating_response = "{}".format(message['content'])
+            return ai_rating_response
+        
+        else:
+            return "No pickup line? You gotta use our other features before you come here buddy."
+        
+    except Exception as err:
+        return str(err)

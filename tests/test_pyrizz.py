@@ -33,3 +33,16 @@ class Tests:
         expected = str
         actual = type(pyrizz.get_ai_line("test"))
         assert actual == expected, "Expected a string to be returned when a category is specified."
+
+    def test_rate_line(self, example_fixture):
+        # Test case 1: Test with a valid pickup line
+        pickup_line = "Do you come with Wi-Fi? Because I'm really feeling a connection."
+        expected_response = "I'd rate it 9/10 – a clever tech twist on a classic line! 🌐😄"
+        actual_response = pyrizz.rate_line(pickup_line)
+        assert actual_response == expected_response
+
+        # Test case 2: Test with an empty pickup line
+        pickup_line = ""
+        expected_response = "No pickup line? You gotta use our other features before you come here buddy."
+        actual_response = pyrizz.rate_line(pickup_line)
+        assert actual_response == expected_response
