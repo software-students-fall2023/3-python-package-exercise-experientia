@@ -25,4 +25,5 @@ jobs:
       # Add more steps for your tests and other tasks
       - name: Test with pytest
         run: |
+          pipenv shell
           pipenv run pytest
