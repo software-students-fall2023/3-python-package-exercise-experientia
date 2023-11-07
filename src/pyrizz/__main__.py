@@ -1,4 +1,5 @@
-import pyrizz.pyrizz as pyrizz
+# import pyrizz.pyrizz as pyrizz
+import src.pyrizz as pyrizz
 
 """Main function for PyRizz."""
 
@@ -55,7 +56,7 @@ def main():
             break
         
         else:
-            print("Invalid Response.")
+            print("\nInvalid Response.")
         
         while True:
             user_cont = input("Would you like to try again? (y/n): ")
