@@ -11,6 +11,7 @@ load_dotenv()
 client = MongoClient(os.getenv('MONGO_URI'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
+print(os.getenv('MONGO_DBNAME'))
 
 # Checks if the connection has been made, else make an error printout
 try:
@@ -36,28 +37,37 @@ def get_random_categorized_line() -> None:
     print("testing")
 
 def get_ai_line(category) -> str:
-    # response = openai.ChatCompletion.create(
-    #     model = os.getenv('OPENAI_MODEL'),
-    #     messages =
-    #         [{"role": "user", "content": f"I need a {category} pick-up line."},]
-    # )
+    try:
+        if (category != "" and len(category) <= 50):
+            response = openai.ChatCompletion.create(
+                model = os.getenv('OPENAI_MODEL'),
+                messages =
+                    [{"role": "user", "content": f"I need a {category} pick-up line."},]
+            )
 
-    # message = response.choices[0]['message']
-    # ai_line = "{}".format(message['content'])
+            message = response.choices[0]['message']
+            ai_line = "{}".format(message['content'])
 
-    collection = database['ai_generated']
+            collection = database['ai_generated']
 
-    lines = collection.find_one({})["lines"]
-    print(lines)
-    
-    # lines.append(ai_line)
+            lines = collection.find_one({})["lines"]
+            
+            lines.append(ai_line)
 
-    # collection.insert_one({
-    #     'lines': lines
-    # })
+            collection.insert_one({
+                'lines': lines
+            })
 
-    # return ai_line
-    return 'testing'
+            return ai_line
+        
+        elif (category != "" and len(category) > 50):
+            return "Please specify a category that is less than 50 characters."
+        
+        else:
+            return "Please specify a category."
+            
+    except Exception as err:
+        return str(err)
 
 def add_user_line():
     templates_file_path = PROJECT_ROOT + '/src/data/templates.json'
@@ -152,5 +162,5 @@ def is_offensive(text):
     except Exception as e:
         print(f"An unexpected error occurred when checking for offensive content: {e}")
         return False
-
+    
 

@@ -4,13 +4,16 @@ import pyrizz.pyrizz as pyrizz
 
 #ASCII art
 
-print(" __    " + "    ____  _            ")
-print("|__)   " + "   / __ \(_)_______    ")
-print("|   \/ " + "  / /_/ / /_  /_  /    ")
-print("    /  " + " / _, _/ / / /_/ /_    ")
-print("       " + "/_/ |_/_/ /___/___/    ")
+print(" ________  ___    ___ ________  ___  ________  ________        ")
+print("|\   __  \|\  \  /  /|\   __  \|\  \|\_____  \|\_____  \       ")
+print("\ \  \|\  \ \  \/  / | \  \|\  \ \  \\\\|___/  /|\|___/  /|      ")
+print(" \ \   ____\ \    / / \ \   _  _\ \  \   /  / /    /  / /      ")
+print("  \ \  \___|\/   / /   \ \  \\\\  \\\\ \  \ /  /_/__  /  /_/__     ")
+print("   \ \__\ __/   / /     \ \__\\\\ _\\\\ \__\\\\________\\\\________\   ")
+print("    \|__||\____/ /       \|__|\|__|\|__|\|_______|\|_______|   ")
+print("         \|____|/                                               ")
 
-print("\n\n")
+print("\n")
 
 def main():
     print("Welcome to PyRizz! Your journey to getting a date begins here...\n")
@@ -20,7 +23,7 @@ def main():
         print("What would you like to do today?\n")
         print("1. Get a random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
         print("2. Get a category-specific random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
-        print("3. Have AI generate a pick-up line in your chosen category / language with a 50% success rate.")
+        print("3. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters) with a 50% success rate.")
         print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
         print("5. Insert your own pick-up line to our database.\n")
         print("!! Type Q to quit !!\n")
