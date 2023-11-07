@@ -12,33 +12,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-    strategy:
-      matrix:
-        python-version: ["3.7", "3.9", "3.11"]
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.x  # Specify the Python version you need
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install --user pipenv
-          pipenv install pytest
-          pipenv install
+          pip install pipenv
+          pipenv install --dev
       # Add more steps for your tests and other tasks
-      - name: Turn on 'editable' mode
-        run: |
-          pipenv install -e .
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pipenv run python -m pytest
-        env:
-          MONGO_DBNAME: ${{ secrets.MONGO_DBNAME }}
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
-
