@@ -1,3 +1,4 @@
+# Script to read text data from lines.txt and organizes it into a dictionary as an output of JSON data for MongoDB
 import json
 import pathlib
 

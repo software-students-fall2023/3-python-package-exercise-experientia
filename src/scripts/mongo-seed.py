@@ -1,3 +1,5 @@
+# Script which extracts the pickup lines from the JSON extracted file and inserts it into the MongoDB database. 
+
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv 
