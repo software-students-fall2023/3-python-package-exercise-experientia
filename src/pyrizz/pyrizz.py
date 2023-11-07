@@ -32,26 +32,29 @@ def get_random_line() -> None:
 
 def get_ai_line(category) -> str:
     try:
-        response = ai_client.chat.completions.create(
-            model = os.getenv('OPENAI_MODEL'),
-            messages =
-                [{"role": "user", "content": f"I need a {category} pick-up line."}]
-        )
+        if (category != None):
+            response = ai_client.chat.completions.create(
+                model = os.getenv('OPENAI_MODEL'),
+                messages =
+                    [{"role": "user", "content": f"I need a {category} pick-up line."}]
+            )
 
-        ai_message = response.choices[0].message.content
-        ai_line = "{}".format(ai_message)
+            ai_message = response.choices[0].message.content
+            ai_line = "{}".format(ai_message)
 
-        collection = database['ai_generated']
+            collection = database['ai_generated']
 
-        lines = collection.find_one({})["lines"]
-        
-        lines.append(ai_line)
+            lines = collection.find_one({})["lines"]
+            
+            lines.append(ai_line)
 
-        collection.insert_one({
-            'lines': lines
-        })
+            collection.insert_one({
+                'lines': lines
+            })
 
-        return ai_line
+            return ai_line
+        else:
+            return "Please specify a category."
     
     except Exception as err:
         return str(err)
