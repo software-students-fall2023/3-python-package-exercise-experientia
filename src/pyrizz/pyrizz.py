@@ -29,6 +29,9 @@ def get_random_line() -> None:
 
     print(line)
 
+def get_random_categorized_line() -> None:
+    print("testing")
+
 def get_ai_line(category) -> str:
     response = openai.ChatCompletion.create(
         model = os.getenv('OPENAI_MODEL'),
