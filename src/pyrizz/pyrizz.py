@@ -170,7 +170,7 @@ def rate_line(pickup_line) -> str:
             response = openai.ChatCompletion.create(
                 model = os.getenv('OPENAI_MODEL'),
                 messages =
-                    [{"role": "user", "content": f"Don't talk as like a conversation or provide a description, just rate this pickup line from 1 to 10 with a snazzy comment: {pickup_line}"},]
+                    [{"role": "user", "content": f"Rate this pickup line out of 10: {pickup_line} In your response follow the format of: rating/10 - snazzy comment."},]
             )
 
             message = response.choices[0]['message']

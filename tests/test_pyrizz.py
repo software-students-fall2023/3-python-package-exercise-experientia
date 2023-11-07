@@ -1,6 +1,7 @@
 import pytest
 import pathlib
 import sys
+import re
 from unittest.mock import Mock, patch
 from unittest.mock import patch, MagicMock, mock_open
 import openai
@@ -126,18 +127,22 @@ class Tests:
             captured = capsys.readouterr()
             assert "Please enter a valid number." in captured.out
 
-    def test_rate_line(self, example_fixture):
-        # Test case 1: Test with a valid pickup line
-        pickup_line = "Do you come with Wi-Fi? Because I'm really feeling a connection."
-        expected_response = "I'd rate it 9/10 – a clever tech twist on a classic line! 🌐😄"
-        actual_response = pyrizz.rate_line(pickup_line)
-        assert actual_response == expected_response
-
-        # Test case 2: Test with an empty pickup line
+    # Testing for the rate line functionality 
+    def test_rate_line_empty(self, example_fixture):
         pickup_line = ""
         expected_response = "No pickup line? You gotta use our other features before you come here buddy."
         actual_response = pyrizz.rate_line(pickup_line)
         assert actual_response == expected_response
         
+    def test_rate_line(self, example_fixture):
+        pickup_line = "Do you come with Wi-Fi? Because I'm really feeling a connection."
+        actual_response = pyrizz.rate_line(pickup_line)
+        
+        # Define a regular expression pattern for expected response format
+        # In this case, the expected pattern response is a number/10 - some characters as a response. 
+        expected_pattern = r'\d+/10 - .+'
+
+        # Check if the actual response matches the expected pattern
+        assert re.match(expected_pattern, actual_response) is not None
  
 # pytest tests/test_pyrizz.py 
