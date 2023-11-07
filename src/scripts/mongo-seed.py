@@ -28,11 +28,13 @@ with open(f'{PROJECT_ROOT}/src/data/lines.json', 'r') as file:
     lines = data['lines']
 
 collection_dev_lines = database['dev_lines']
-collection_ai_generated = database['ai_generated']
+collection_dev_lines.drop()
 
 collection_dev_lines.insert_one({
     'lines': lines
 })
+
+collection_ai_generated = database['ai_generated']
 
 collection_ai_generated.insert_one({
     'lines': []

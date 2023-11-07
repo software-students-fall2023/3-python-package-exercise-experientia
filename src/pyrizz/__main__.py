@@ -20,7 +20,7 @@ def main():
         print("What would you like to do today?\n")
         print("1. Get a random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
         print("2. Get a category-specific random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
-        print("3. Have AI generate a pick-up line in your chosen category / language with a 50% success rate.")
+        print("3. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters) with a 50% success rate.")
         print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
         print("5. Insert your own pick-up line to our database.\n")
         print("!! Type Q to quit !!\n")

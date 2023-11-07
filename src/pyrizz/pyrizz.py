@@ -2,13 +2,12 @@ from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
 from random import randint
-from openai import OpenAI
+import openai
 
 load_dotenv()
 
 client = MongoClient(os.getenv('MONGO_URI'))
-ai_client = OpenAI()
-ai_client.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Checks if the connection has been made, else make an error printout
 try:
@@ -29,18 +28,19 @@ def get_random_line() -> None:
     line = collection.find_one({})["lines"][random_number]
 
     print(line)
+    
 
 def get_ai_line(category) -> str:
     try:
-        if (category != None):
-            response = ai_client.chat.completions.create(
+        if (category != "" and len(category) <= 50):
+            response = openai.ChatCompletion.create(
                 model = os.getenv('OPENAI_MODEL'),
                 messages =
-                    [{"role": "user", "content": f"I need a {category} pick-up line."}]
+                    [{"role": "user", "content": f"I need a {category} pick-up line."},]
             )
 
-            ai_message = response.choices[0].message.content
-            ai_line = "{}".format(ai_message)
+            message = response.choices[0]['message']
+            ai_line = "{}".format(message['content'])
 
             collection = database['ai_generated']
 
@@ -53,8 +53,12 @@ def get_ai_line(category) -> str:
             })
 
             return ai_line
+        
+        elif (category != "" and len(category) > 50):
+            return "Please specify a category that is less than 50 characters."
+        
         else:
             return "Please specify a category."
-    
+            
     except Exception as err:
         return str(err)
