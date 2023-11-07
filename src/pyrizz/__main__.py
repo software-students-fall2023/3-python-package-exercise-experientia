@@ -27,11 +27,14 @@ def main():
 
         print("Enter your choice: ")
         user_input = input("> ")
-
+        
         if user_input == "3":
             print("Enter a category / language: ")
             category = input("> ")
             print("\n" + pyrizz.get_ai_line(category), end = "\n\n")
+        
+        if user_input == "5": 
+            pyrizz.add_user_line()
 
         elif user_input == "q" or user_input == "Q":
             break
