@@ -20,10 +20,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pipenv
-          pipenv install
-          pipenv install --dev
+          pipenv install -e
+        # pipenv install --dev
       # Add more steps for your tests and other tasks
       - name: Test with pytest
         run: |
-          pipenv shell
-          pipenv run pytest
+          pipenv run python -m pytest
