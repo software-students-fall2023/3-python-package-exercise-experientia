@@ -125,6 +125,19 @@ class Tests:
             pyrizz.add_user_line()
             captured = capsys.readouterr()
             assert "Please enter a valid number." in captured.out
+
+    def test_rate_line(self, example_fixture):
+        # Test case 1: Test with a valid pickup line
+        pickup_line = "Do you come with Wi-Fi? Because I'm really feeling a connection."
+        expected_response = "I'd rate it 9/10 – a clever tech twist on a classic line! 🌐😄"
+        actual_response = pyrizz.rate_line(pickup_line)
+        assert actual_response == expected_response
+
+        # Test case 2: Test with an empty pickup line
+        pickup_line = ""
+        expected_response = "No pickup line? You gotta use our other features before you come here buddy."
+        actual_response = pyrizz.rate_line(pickup_line)
+        assert actual_response == expected_response
         
  
 # pytest tests/test_pyrizz.py 
