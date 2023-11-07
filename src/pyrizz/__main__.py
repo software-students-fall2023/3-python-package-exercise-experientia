@@ -18,8 +18,7 @@ print("\n")
 def main():
     print("Welcome to PyRizz! Your journey to getting a date begins here...\n")
 
-    while True:
-        
+    while True:      
         print("What would you like to do today?\n")
         print("1. Get a random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
         print("2. Get a category-specific random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
@@ -36,20 +35,28 @@ def main():
             category = input("> ")
             print("\n" + pyrizz.get_ai_line(category), end = "\n\n")
         
-        if user_input == "5": 
+        elif user_input == "4":
+            print("Type your pickup line: ")
+            pickup_line = input("> ")
+            print("\n" + pyrizz.rate_line(pickup_line), end = "\n\n")
+
+        elif user_input == "5": 
             pyrizz.add_user_line()
 
         elif user_input == "q" or user_input == "Q":
             break
+        
+        else:
+            print("Invalid Response.")
+            user_cont = input("Would you like to try again? (y/n): ")
 
-        print("Would you like to do something else? (y/n)")
-        user_cont = input("> ")
+            while user_cont not in ["n", "y"]:
+                print("\nPlease provide a valid input (y/n)")
+                user_cont = input("> ")
 
-        if user_cont == "n":
-            break
+            if user_cont == "n":
+                break
 
-        if user_cont == "y":
-            continue
         
 if __name__ == "__main__":
     main()

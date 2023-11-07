@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyrizz"
-description = "A package where users can receive pick up lines one at a time."
+description = "A package where users can receive pick up lines, rate pickup lines and add pickup lines"
 version = "0.0.1"
 authors = [
   { name="Aditya Pandhare", email="adityapandhare44@gmail.com" },  
