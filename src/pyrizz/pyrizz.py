@@ -11,6 +11,7 @@ load_dotenv()
 client = MongoClient(os.getenv('MONGO_URI'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
+print(os.getenv('MONGO_DBNAME'))
 
 # Checks if the connection has been made, else make an error printout
 try:
