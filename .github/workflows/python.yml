@@ -25,5 +25,6 @@ jobs:
           pipenv install
 
       - name: Run tests
+        working-directory: tests/test_pyrizz.py
         run: |
-          pipenv run python -m pytest
+          pipenv run pytest test_pyrizz.py
