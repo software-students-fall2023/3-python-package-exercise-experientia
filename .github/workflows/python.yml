@@ -12,6 +12,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: List files in the root directory
+        run: ls -la
+
+      - name: Checkout respository
+        uses: actions/checkout@v2
+      
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -23,7 +29,6 @@ jobs:
           pipenv install --dev
           pipenv install pytest
           pipenv install
-
+          
       - name: Run tests
         run: ls tests/
-          
