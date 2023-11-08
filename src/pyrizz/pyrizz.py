@@ -75,28 +75,6 @@ def get_random_categorized_line(category) -> str:
         return str(err)
 
 def get_ai_line(category) -> str:
-<<<<<<< HEAD
-    response = openai.ChatCompletion.create(
-        model = os.getenv('OPENAI_MODEL'),
-        messages =
-            [{"role": "user", "content": f"I need a {category} pick-up line."},]
-    )
-
-    message = response.choices[0]['message']
-    ai_line = "{}".format(message['content'])
-
-    collection = database['ai_generated']
-
-    lines = collection.find_one({})["lines"]
-    
-    lines.append(ai_line)
-
-    collection.insert_one({
-        'lines': lines
-    })
-
-    return ai_line
-=======
     try:
         if (category != "" and len(category) <= 50):
             response = openai.ChatCompletion.create(
@@ -126,7 +104,6 @@ def get_ai_line(category) -> str:
             
     except Exception as err:
         return str(err)
->>>>>>> b3a609d302225e6f8e9b3027655697eea1683d0d
 
 def add_user_line():
     templates_file_path = PROJECT_ROOT + '/src/data/templates.json'
