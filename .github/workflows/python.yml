@@ -29,6 +29,15 @@ jobs:
           pip install pipenv
           pipenv install --dev
 
+      # Added step for debugging MONGO_URI
+      - name: Print debug information for MONGO_URI
+        run: |
+          if [ -z "${{ secrets.MONGO_URI }}" ]; then
+            echo "MONGO_URI is empty or not set."
+          else
+            echo "MONGO_URI is set."
+          fi
+
       - name: Turn on 'editable' mode
         run: |
           pipenv install -e .
@@ -41,3 +50,4 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+
