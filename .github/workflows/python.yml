@@ -27,9 +27,7 @@ jobs:
       - name: Install dependencies with Pipenv
         run: |
           pipenv install --dev
-        working-directory: 3-python-package-exercise-experientia
 
       - name: Run tests
         run: |
           pipenv run pytest tests/test_pyrizz.py
-        working-directory: 3-python-package-exercise-experientia
