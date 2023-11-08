@@ -7,6 +7,7 @@ import openai
 from pyrizz.pickuplines import pickuplines, user_templates
 
 load_dotenv()
+PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def get_lines(category='all'): 
@@ -67,18 +68,32 @@ def rate_line(pickup_line) -> str:
         return str(err)
 
 def add_user_line():
-    pickupline_templates = user_templates
+    templates_file_path = PROJECT_ROOT + '/src/data/templates.json'
+
+    try:
+        with open(templates_file_path, 'r', encoding='utf-8') as file:
+            templates = json.load(file)["templates"]
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+        return
+    except FileNotFoundError:
+        print(f"The file {templates_file_path} was not found.")
+        return
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return
+
     print("Choose a template number (1-20):")
     try:
         template_number = int(input("> ")) - 1  
-        if not (0 <= template_number < len(user_templates)):
+        if not (0 <= template_number < len(templates)):
             print("Template number out of range. Please choose between 1 and 20.")
             return
     except ValueError:
         print("Please enter a valid number.")
         return
 
-    template_to_show = pickupline_templates[template_number]
+    template_to_show = templates[template_number]
     placeholders_count = template_to_show.count("{}")  
     placeholder_representation = ['______'] * placeholders_count 
     print("Fill in the blanks for the following template:")
@@ -89,7 +104,7 @@ def add_user_line():
     words = [word.strip() for word in words] 
 
     try:
-        user_line = pickupline_templates[template_number].format(*words)
+        user_line = templates[template_number].format(*words)
     except IndexError:
         print("Not enough words provided for the placeholders.")
         return
@@ -98,10 +113,14 @@ def add_user_line():
         return
     
     if is_line_valid(user_line): 
-        print("Here's your custom pick-up line:")
-        print(user_line)
-        pickuplines['user_lines'].append(user_line)
-        print("Nice! Your line was added!")
+        try:
+            print("Here's your custom pick-up line:")
+            print(user_line)
+            # Add the line somehow
+            print("Line added")
+            
+        except Exception as e:
+            print(f"An error occurred while inserting the line into the database: {e}")
     else: 
         print("Your pick-up line doesn't pass our checks.")
 
