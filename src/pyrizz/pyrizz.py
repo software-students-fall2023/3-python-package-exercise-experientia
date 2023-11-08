@@ -54,14 +54,24 @@ def get_random_line() -> str:
     return line
 
 def get_random_categorized_line(category) -> str:
-    dev_lines = get_dev_lines()
+    try:
+        if category != "" and (category in get_dev_line_categories()):
+            dev_lines = get_dev_lines()
 
-    category_size = len(dev_lines[category])
-    random_number = randint(0, category_size - 1)
+            category_size = len(dev_lines[category])
+            random_number = randint(0, category_size - 1)
 
-    line = dev_lines[category][random_number]
+            line = dev_lines[category][random_number]
 
-    return line
+            return line
+        
+        if category != "" and (category not in get_dev_line_categories()):
+            return "System error: category not found."
+        
+        return "Please select a valid category."
+         
+    except Exception as err:
+        return str(err)
 
 def get_ai_line(category) -> str:
     response = openai.ChatCompletion.create(

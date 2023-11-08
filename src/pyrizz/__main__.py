@@ -38,7 +38,11 @@ def main():
                 print(f"{i + 1}. {category}")
 
             category_index = input("> ")
-            print("\n" + pyrizz.get_random_categorized_line(category_list[int(category_index) - 1]), end = "\n\n")
+            category_index = int(category_index) if category_index.isdigit() else 4
+            category_val = ''
+            if category_index in range(1, 4):
+                category_val = category_list[category_index - 1]
+            print("\n" + pyrizz.get_random_categorized_line(category_val), end = "\n\n")
         
         if user_input == "3":
             print("Enter a category / language: ")
