@@ -10,15 +10,24 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x  # Specify the Python version you need
-      - name: Install dependencies
-        run: |
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.x
+
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y build-essential python3-dev
+
+    - name: Install dependencies
+      run: |
           pip install pipenv
           pipenv install --dev
-      # Add more steps for your tests and other tasks
+
+    - name: Run tests
+      run: pipenv run pytest tests/test_pyrizz.py
