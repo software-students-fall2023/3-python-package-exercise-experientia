@@ -33,27 +33,25 @@ def main():
         if user_input == "1":
             print("\n" + pyrizz.get_random_line(), end = "\n\n")
 
-        if user_input == "2":
-            category_list = pyrizz.get_dev_line_categories()
-            print("Select a category: ")
-            for i, category in enumerate(category_list):
-                print(f"{i + 1}. {category}")
-
-            category_index = input("> ")
-            category_index = int(category_index) if category_index.isdigit() else 4
-            category_val = ''
-            if category_index in range(1, 4):
-                category_val = category_list[category_index - 1]
-            print("\n" + pyrizz.get_random_categorized_line(category_val), end = "\n\n")
-        
-        if user_input == "1":
-            # Some execution
-            pass
-        
         elif user_input == "2":
-            # Some execution
-            pass
-
+            print("Select a category: ")
+            print("1 - Romantic")
+            print("2 - Clever")
+            print("3 - Geeky")
+            print("4 - User Submitted")
+            category_index = input("> ")
+            category_index = int(category_index) 
+            if category_index in range(1, 4):
+                if(category_index == 1): 
+                    category_val = "romantic_lines"
+                elif(category_index == 2): 
+                    category_val = "clever_lines"
+                elif(category_index == 3):
+                    category_val = "geeky_lines"
+                elif(category_index == 4):
+                    category_val = "user_lines"
+                print("\n" + pyrizz.get_random_category_line(category_val), end = "\n\n")
+        
         elif user_input == "3":
             print("Enter a category / language: ")
             category = input("> ")
