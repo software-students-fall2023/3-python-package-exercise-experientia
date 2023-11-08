@@ -31,7 +31,7 @@ jobs:
       - name: Test with pytest
         run: |
           pipenv run python -m pytest
-        env:
+        env: |
           MONGO_DBNAME: ${{ secrets.MONGO_DBNAME }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
