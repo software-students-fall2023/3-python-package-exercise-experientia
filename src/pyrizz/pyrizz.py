@@ -4,6 +4,7 @@ import pathlib
 import json
 from pymongo import MongoClient
 from dotenv import load_dotenv
+from bson.objectid import ObjectId
 import openai
 
 load_dotenv()
@@ -25,14 +26,53 @@ except Exception as err:
 
 collection = database['dev_lines']
 
-def get_random_line() -> None:
-    size = len(collection.find_one({})["lines"])
-    random_number = randint(0, size - 1)
-    line = collection.find_one({})["lines"][random_number]
-    print(line)
+def get_dev_lines() -> dict:
+    collection = database['dev_lines']
 
-def get_random_categorized_line() -> None:
-    print("testing")
+    dev_lines = collection.find_one({"_id": ObjectId('6549de9a01c853780b3d5c40')})
+
+    return dev_lines
+
+def get_dev_line_categories() -> list:
+    dev_lines = get_dev_lines()
+
+    category_list = list(dev_lines.keys())
+    category_list.pop(0)
+
+    return category_list
+
+def get_random_line() -> str:
+    dev_lines = get_dev_lines()
+
+    category_list = get_dev_line_categories()
+
+    random_category = category_list[randint(0, len(category_list) - 1)]
+    category_size = len(dev_lines[random_category])
+    random_number = randint(0, category_size - 1)
+
+    line = dev_lines[random_category][random_number]
+
+    return line
+
+def get_random_categorized_line(category) -> str:
+    try:
+        if category != "" and (category in get_dev_line_categories()):
+            dev_lines = get_dev_lines()
+
+            category_size = len(dev_lines[category])
+            random_number = randint(0, category_size - 1)
+
+            line = dev_lines[category][random_number]
+
+            return line
+        
+        if category != "" and (category not in get_dev_line_categories()):
+            return "System error: category not found."
+        
+        return "Please select a valid category."
+         
+    except Exception as err:
+        return str(err)
 
 def get_ai_line(category) -> str:
     try:

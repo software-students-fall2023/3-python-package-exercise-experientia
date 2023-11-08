@@ -29,6 +29,22 @@ def main():
 
         print("Enter your choice: ")
         user_input = input("> ")
+
+        if user_input == "1":
+            print("\n" + pyrizz.get_random_line(), end = "\n\n")
+
+        if user_input == "2":
+            category_list = pyrizz.get_dev_line_categories()
+            print("Select a category: ")
+            for i, category in enumerate(category_list):
+                print(f"{i + 1}. {category}")
+
+            category_index = input("> ")
+            category_index = int(category_index) if category_index.isdigit() else 4
+            category_val = ''
+            if category_index in range(1, 4):
+                category_val = category_list[category_index - 1]
+            print("\n" + pyrizz.get_random_categorized_line(category_val), end = "\n\n")
         
         if user_input == "1":
             # Some execution
@@ -64,7 +80,7 @@ def main():
             else:
                 print("\nPlease provide a valid input (y/n)")
 
-        if user_cont == "n":
+        if user_cont == "n" or user_cont == "q" or user_cont == "Q":
             break
         
 if __name__ == "__main__":
