@@ -1,78 +1,29 @@
 import os
-from random import randint
+import random
 import pathlib
 import json
-from pymongo import MongoClient
 from dotenv import load_dotenv
-from bson.objectid import ObjectId
 import openai
+from pyrizz.pickuplines import pickuplines, user_templates
 
 load_dotenv()
-
-client = MongoClient(os.getenv('MONGO_URI'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
-PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
-print(os.getenv('MONGO_DBNAME'))
 
-# Checks if the connection has been made, else make an error printout
-try:
-    client.admin.command('ping')          
-    database = client[os.getenv('MONGO_DBNAME')]          
-    print('*****') 
+def get_lines(category='all'): 
+    if category not in pickuplines:
+        print("Category does not exist!")
+        return
 
-except Exception as err:
-    print('* "Failed to connect to MongoDB at', os.getenv('MONGO_URI'))
-    print('Database connection error:', err) 
+    else: 
+        return pickuplines[category]
 
-collection = database['dev_lines']
+def get_random_line(): 
+    allpickuplines = get_lines('all')
+    return random.choice(allpickuplines)
 
-def get_dev_lines() -> dict:
-    collection = database['dev_lines']
-
-    dev_lines = collection.find_one({"_id": ObjectId('6549de9a01c853780b3d5c40')})
-
-    return dev_lines
-
-def get_dev_line_categories() -> list:
-    dev_lines = get_dev_lines()
-
-    category_list = list(dev_lines.keys())
-    category_list.pop(0)
-
-    return category_list
-
-def get_random_line() -> str:
-    dev_lines = get_dev_lines()
-
-    category_list = get_dev_line_categories()
-
-    random_category = category_list[randint(0, len(category_list) - 1)]
-    category_size = len(dev_lines[random_category])
-    random_number = randint(0, category_size - 1)
-
-    line = dev_lines[random_category][random_number]
-
-    return line
-
-def get_random_categorized_line(category) -> str:
-    try:
-        if category != "" and (category in get_dev_line_categories()):
-            dev_lines = get_dev_lines()
-
-            category_size = len(dev_lines[category])
-            random_number = randint(0, category_size - 1)
-
-            line = dev_lines[category][random_number]
-
-            return line
-        
-        if category != "" and (category not in get_dev_line_categories()):
-            return "System error: category not found."
-        
-        return "Please select a valid category."
-         
-    except Exception as err:
-        return str(err)
+def get_random_category_line(category='all'):
+    category_pickupline = get_lines(category)
+    return random.choice(category_pickupline)
 
 def get_ai_line(category) -> str:
     try:
@@ -85,15 +36,6 @@ def get_ai_line(category) -> str:
 
             message = response.choices[0]['message']
             ai_line = "{}".format(message['content'])
-
-            collection = database['ai_generated']
-            lines = collection.find_one({})["lines"]
-            lines.append(ai_line)
-
-            collection.insert_one({
-                'lines': lines
-            })
-
             return ai_line
         
         elif (category != "" and len(category) > 50):
@@ -105,33 +47,38 @@ def get_ai_line(category) -> str:
     except Exception as err:
         return str(err)
 
-def add_user_line():
-    templates_file_path = PROJECT_ROOT + '/src/data/templates.json'
-
+def rate_line(pickup_line) -> str:
     try:
-        with open(templates_file_path, 'r', encoding='utf-8') as file:
-            templates = json.load(file)["templates"]
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON: {e}")
-        return
-    except FileNotFoundError:
-        print(f"The file {templates_file_path} was not found.")
-        return
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return
+        if (pickup_line != ""):
+            response = openai.ChatCompletion.create(
+                model = os.getenv('OPENAI_MODEL'),
+                messages =
+                    [{"role": "user", "content": f"Rate this pickup line out of 10: {pickup_line} In your response, STRICTLY follow the format of (nothing else): rating/10 - snazzy comment."},]
+            )
 
+            message = response.choices[0]['message']
+            ai_rating_response = "{}".format(message['content'])
+            return ai_rating_response
+        
+        else:
+            return "No pickup line? You gotta use our other features before you come here buddy."
+        
+    except Exception as err:
+        return str(err)
+
+def add_user_line():
+    pickupline_templates = user_templates
     print("Choose a template number (1-20):")
     try:
         template_number = int(input("> ")) - 1  
-        if not (0 <= template_number < len(templates)):
+        if not (0 <= template_number < len(user_templates)):
             print("Template number out of range. Please choose between 1 and 20.")
             return
     except ValueError:
         print("Please enter a valid number.")
         return
 
-    template_to_show = templates[template_number]
+    template_to_show = pickupline_templates[template_number]
     placeholders_count = template_to_show.count("{}")  
     placeholder_representation = ['______'] * placeholders_count 
     print("Fill in the blanks for the following template:")
@@ -142,7 +89,7 @@ def add_user_line():
     words = [word.strip() for word in words] 
 
     try:
-        user_line = templates[template_number].format(*words)
+        user_line = pickupline_templates[template_number].format(*words)
     except IndexError:
         print("Not enough words provided for the placeholders.")
         return
@@ -151,19 +98,10 @@ def add_user_line():
         return
     
     if is_line_valid(user_line): 
-        try:
-            collection = database['user_lines']
-            insert_result = collection.insert_one({'line': user_line})
-            
-            if insert_result.inserted_id:
-                print("Here's your custom pick-up line:")
-                print(user_line)
-                print("Line added to the database successfully!")
-            else:
-                print("Failed to add line to the database.")
-            
-        except Exception as e:
-            print(f"An error occurred while inserting the line into the database: {e}")
+        print("Here's your custom pick-up line:")
+        print(user_line)
+        pickuplines['user_lines'].append(user_line)
+        print("Nice! Your line was added!")
     else: 
         print("Your pick-up line doesn't pass our checks.")
 
@@ -198,23 +136,3 @@ def is_offensive(text):
     except Exception as e:
         print(f"An unexpected error occurred when checking for offensive content: {e}")
         return False
-    
-
-def rate_line(pickup_line) -> str:
-    try:
-        if (pickup_line != ""):
-            response = openai.ChatCompletion.create(
-                model = os.getenv('OPENAI_MODEL'),
-                messages =
-                    [{"role": "user", "content": f"Rate this pickup line out of 10: {pickup_line} In your response, STRICTLY follow the format of (nothing else): rating/10 - snazzy comment."},]
-            )
-
-            message = response.choices[0]['message']
-            ai_rating_response = "{}".format(message['content'])
-            return ai_rating_response
-        
-        else:
-            return "No pickup line? You gotta use our other features before you come here buddy."
-        
-    except Exception as err:
-        return str(err)
