@@ -26,4 +26,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pipenv run pytest tests/test_pyrizz.py
+          pipenv run python -m pytest
