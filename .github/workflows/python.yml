@@ -1,24 +1,33 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: pyrizz_tests
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+name: CI / CD
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.9", "3.11"]
+        
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.x  # Specify the Python version you need
+          python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
-          pip install pipenv
-          pipenv install --dev
-      # Add more steps for your tests and other tasks
+          python -m pip install --upgrade pip
+          pip install --user pipenv
+          pipenv --python ${{ matrix.python-version }}
+          pipenv install pytest
+          pipenv install
+
+      - name: Turn on 'editable' mode
+        run: |
+          pipenv install -e .
+
+      - name: Test with pytest
+        run: |
+          pipenv run python -m pytest
