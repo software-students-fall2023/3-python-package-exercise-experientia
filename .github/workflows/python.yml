@@ -12,9 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: List files in the root directory
-        run: ls -la
-
       - name: Checkout respository
         uses: actions/checkout@v2
       
@@ -31,4 +28,6 @@ jobs:
           pipenv install
           
       - name: Run tests
-        run: ls tests/
+        working-directory: 3-python-package-exercise-experientia
+        run: |
+          pipenv run pytest tests/test_pyrizz.py
