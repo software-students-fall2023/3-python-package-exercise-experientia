@@ -3,12 +3,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://test.pypi.org/simple/"
+verify_ssl = true
+name = "testpypi"
+
 [packages]
 pytest = "==7.4.3"
-pymongo = "==4.6.0"
 python-dotenv = "==0.16.0"
 openai = "==0.28.1"
-pyrizz = {editable = true, path = "."}
+pyrizz = {version = "==0.0.666", index = "testpypi"}
 
 [dev-packages]
 
