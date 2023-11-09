@@ -1,4 +1,4 @@
-import pyrizz as pyrizz
+import pyrizz.pyrizz as pyrizz
 import openai
 
 """Main function for PyRizz."""
@@ -77,7 +77,9 @@ def main():
 
         elif user_input == "6":
             print("Here are the available templates:")
-            pyrizz.list_templates()
+            templates = pyrizz.list_templates()
+            for idx, template in enumerate(templates, 1):
+                print(f"Template {idx}: {template}")
 
         elif user_input == "7":
             print("Please enter your API key.")

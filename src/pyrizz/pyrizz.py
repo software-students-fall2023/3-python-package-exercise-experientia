@@ -1,7 +1,6 @@
 import os
 import random
 import pathlib
-import json
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
 
@@ -66,8 +65,13 @@ def load_ascii_art(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         content = file.read()
     ascii_art_pieces = content.split('[End]')
-    ascii_art_pieces = [piece.strip()[len('[Start]'):].strip() for piece in ascii_art_pieces if piece.strip()]
-    return ascii_art_pieces
+    cleaned_ascii_art_pieces = []
+    for piece in ascii_art_pieces:
+        if '[Start]' in piece:
+            start_index = piece.find('[Start]') + len('[Start]')
+            art_piece = piece[start_index:]
+            cleaned_ascii_art_pieces.append(art_piece)
+    return cleaned_ascii_art_pieces
 
 def create_line(template_number, words):
     if not (0 <= template_number < len(templates)):
@@ -92,12 +96,16 @@ def create_line(template_number, words):
         return None, "Your line doesn't pass our checks. Sorry!"
 
 def get_user_input_for_line():
-    print("Choose a template number (0-{}):".format(len(templates)))
-    template_number = int(input("> ")) - 1
+    print("Choose a template number (0-{}):".format(len(templates) - 1))
+    try:
+        template_number = int(input("> "))  
+    except ValueError:
+        print("Invalid input. Please enter an integer value.")
+        return None, None
 
     if template_number not in range(len(templates)):
         print("Invalid template number. Please choose a number between 0 and {}.".format(len(templates) - 1))
-        return None, None  
+        return None, None
 
     template_to_show = templates[template_number]
     placeholders_count = template_to_show.count("{}")
@@ -106,8 +114,12 @@ def get_user_input_for_line():
     print(template_to_show.format(*(['______'] * placeholders_count)))
 
     print(f"Enter {placeholders_count} word(s) separated by commas to fill into the template:")
-    words = input("> ").split(',')
-    words = [word.strip() for word in words] 
+    words_input = input("> ")
+    words = [word.strip() for word in words_input.split(',')]
+
+    if len(words) != placeholders_count:
+        print(f"Incorrect number of words. You need to provide exactly {placeholders_count} word(s).")
+        return None, None
 
     return template_number, words
 
@@ -115,19 +127,8 @@ def is_line_valid(user_line):
     if len(user_line) > 140:
         print("Your pick-up line is too long.")
         return False
-
-    #if is_offensive(user_line):
-        #return False
     
     return True
 
-#def is_offensive(text):
-#    if profanity.contains_profanity(text):
-#        return True
-#    else:
-#        return False
-
 def list_templates():
-    for idx, template in enumerate(templates, 1):
-        print(f"Template {idx}: {template}")
     return templates
