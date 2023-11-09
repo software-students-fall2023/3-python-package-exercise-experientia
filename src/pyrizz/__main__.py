@@ -28,7 +28,7 @@ def main():
         print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
         print("5. Create your very own pickup line!.\n")
 
-        print("6. Enter your API key to use AI function.\n")
+        print("6. Enter your API key to use AI functionality.\n")
 
         print("!! Type Q to quit !!\n")
 

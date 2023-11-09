@@ -6,7 +6,6 @@ import unittest
 from unittest.mock import Mock, patch
 from unittest.mock import patch, MagicMock, mock_open
 import openai
-from openai import openai_object
 sys.path.append(f"{pathlib.Path(__file__).parent.resolve()}/../src")
 from pyrizz import pyrizz
 
