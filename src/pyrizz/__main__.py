@@ -20,11 +20,11 @@ def main():
 
     while True:    
         print("What would you like to do today?\n")
-        print("1. Get a random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
-        print("2. Get a category-specific random pick-up line hand-picked by the devs with a guaranteed 100% success rate.")
-        print("3. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters) with a 50% success rate.")
+        print("1. Get a random pick-up line")
+        print("2. Get a category-specific random pick-up line (romantic, clever, geeky, dev)")
+        print("3. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters)")
         print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
-        print("5. Insert your own pick-up line to our database.\n")
+        print("5. Create your very own pickup line!.\n")
         print("!! Type Q to quit !!\n")
 
         print("Enter your choice: ")
@@ -38,18 +38,18 @@ def main():
             print("1 - Romantic")
             print("2 - Clever")
             print("3 - Geeky")
-            print("4 - User Submitted")
+            print("4 - Developer Lines")
             category_index = input("> ")
             category_index = int(category_index) 
             if category_index in range(1, 4):
                 if(category_index == 1): 
-                    category_val = "romantic_lines"
+                    category_val = "romantic"
                 elif(category_index == 2): 
-                    category_val = "clever_lines"
+                    category_val = "clever"
                 elif(category_index == 3):
-                    category_val = "geeky_lines"
+                    category_val = "geeky"
                 elif(category_index == 4):
-                    category_val = "user_lines"
+                    category_val = "dev"
                 print("\n" + pyrizz.get_random_category_line(category_val), end = "\n\n")
         
         elif user_input == "3":
@@ -63,7 +63,7 @@ def main():
             print("\n" + pyrizz.rate_line(pickup_line), end = "\n\n")
 
         elif user_input == "5": 
-            pyrizz.add_user_line()
+            pyrizz.create_line()
 
         elif user_input == "q" or user_input == "Q":
             break
