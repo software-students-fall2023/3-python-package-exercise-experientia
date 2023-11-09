@@ -5,8 +5,8 @@ import json
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
 
+PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/"
 
-PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
 
 def get_lines(category='all'): 
     if category not in pickuplines:
@@ -63,51 +63,72 @@ def rate_line(pickup_line, client) -> str:
     except Exception as err:
         return str(err)
 
-def create_line():
-    print("Choose a template number (1-20):")
+def load_ascii_art(filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        content = file.read()
+    ascii_art_pieces = content.split('[End]')
+    ascii_art_pieces = [piece.strip()[len('[Start]'):].strip() for piece in ascii_art_pieces if piece.strip()]
+    return ascii_art_pieces
+
+def create_line(template_number, words):
+    if not (0 <= template_number < len(templates)):
+        return None, "Template number out of range. Please choose between 0 and {}.".format(len(templates) - 1)
+
+    template_to_use = templates[template_number]
+    placeholders_count = template_to_use.count("{}")
+    if placeholders_count != len(words):
+        return None, "Incorrect number of words provided for the placeholders. Expected {}, got {}.".format(placeholders_count, len(words))
+
     try:
-        template_number = int(input("> ")) - 1  
-        if not (0 <= template_number < len(templates)):
-            print("Template number out of range. Please choose between 1 and 20.")
-            return
-    
-    except ValueError:
-        print("Please enter a valid number.")
-        return
+        user_line = template_to_use.format(*words)
+    except IndexError as e:
+        return None, f"Error in formatting: {str(e)}"
+
+    if is_line_valid(user_line):
+        ascii_art_pieces = load_ascii_art(PROJECT_ROOT + 'data/ascii_art.txt')
+        art = random.choice(ascii_art_pieces)
+        user_line_with_art = f"{art}\n\n{user_line}"
+        return user_line_with_art
+    else:
+        return None, "Your line doesn't pass our checks. Sorry!"
+
+def get_user_input_for_line():
+    print("Choose a template number (0-{}):".format(len(templates)))
+    template_number = int(input("> ")) - 1
+
+    if template_number not in range(len(templates)):
+        print("Invalid template number. Please choose a number between 0 and {}.".format(len(templates) - 1))
+        return None, None  
 
     template_to_show = templates[template_number]
-    placeholders_count = template_to_show.count("{}")  
-    placeholder_representation = ['______'] * placeholders_count 
-    print("Fill in the blanks for the following template:")
-    print(template_to_show.format(*placeholder_representation))
+    placeholders_count = template_to_show.count("{}")
 
-    print(f"Enter {placeholders_count} word(s) separated by a comma to fill into the template:")
+    print("Fill in the blanks for the following template:")
+    print(template_to_show.format(*(['______'] * placeholders_count)))
+
+    print(f"Enter {placeholders_count} word(s) separated by commas to fill into the template:")
     words = input("> ").split(',')
     words = [word.strip() for word in words] 
 
-    try:
-        user_line = templates[template_number].format(*words)
-    
-    except IndexError:
-        print("Not enough words provided for the placeholders.")
-        return
-    
-    except Exception as e:
-        print(f"An unexpected formatting error occurred: {e}")
-        return
-    
-    if is_line_valid(user_line): 
-        try:
-            print("\nLooks great! Try it on a human now and meet your match!")
-            return(user_line)
-            
-        except Exception as e:
-            print(f"An error occurred while inserting the line into the database: {e}")
-    else: 
-        return("Your pick-up line doesn't pass our checks.")
+    return template_number, words
 
 def is_line_valid(user_line):
     if len(user_line) > 140:
+        print("Your pick-up line is too long.")
         return False
+
+    #if is_offensive(user_line):
+        #return False
     
     return True
+
+#def is_offensive(text):
+#    if profanity.contains_profanity(text):
+#        return True
+#    else:
+#        return False
+
+def list_templates():
+    for idx, template in enumerate(templates, 1):
+        print(f"Template {idx}: {template}")
+    return templates

@@ -60,15 +60,23 @@ from pyrizz import pyrizz
 print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.'))
 ```
 
-### create_line()
+### create_line(template_number, words)
 
 In this function, if you're new to pickup lines, you can create your very own pickup using some of our templates!
+- **template_number** - You need to input a template number (0-39). You can find out the templates by calling the list_templates() function: `print(pyrizz.list_templates())`. This way you can see how the templates look like, how many words you need to include and which one you like!
+- **words** - You need to input a list of all the words, for example if you need to input 2 words: `words = ["word1", "word2"]`
+
+This function returns your line with some lovely ASCII art as well! Enjoy!
+Here is an example: 
 ```
 from pyrizz import pyrizz
 
-print(pyrizz.create_line())
+words_to_use = ["sun"]
+output = pyrizz.create_line(1, words_to_use)
+print(output)
 ```
 
+### Accessing an Example: 
 You can access our example file which utilizes all of these functions with an awesome user interface: 
 [Example File](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/blob/main/src/pyrizz/__main__.py)
 
