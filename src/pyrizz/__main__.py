@@ -1,4 +1,4 @@
-import pyrizz.pyrizz as pyrizz
+import pyrizz as pyrizz
 import openai
 
 """Main function for PyRizz."""
@@ -24,12 +24,12 @@ def main():
         print("What would you like to do today?\n")
         print("1. Get a random pick-up line")
         print("2. Get a category-specific random pick-up line (romantic, clever, geeky, dev)")
-        print("3. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters)")
-        print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
-        print("5. Create your line with one of our templates with randomly selected ASCII art.")
-        print("6. List available templates for pick-up lines.\n")
-        
-        print("7. Enter your API key to use AI functionality.\n")
+        print("3. Create your line with one of our templates with randomly selected ASCII art.")
+        print("4. List available templates for pick-up lines.\n")
+        print("Use AI for your pickup lines: ")
+        print("5. Enter your API key to use AI functionality.")
+        print("6. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters)")
+        print("7. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;) \n")
         
         print("!! Type Q to quit !!\n")
 
