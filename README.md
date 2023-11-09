@@ -40,30 +40,39 @@ print(pyrizz.get_random_categoryy_line('geeky'))
 print(pyrizz.get_random_categoryy_line('dev'))
 ```
 
-### get_ai_line(keyword)
+### get_ai_line(keyword, your_openai_key)
 
-In this function, you can retreive a generated pickup line using openai based on any keyword that you suggest. In this example, it would output a Shakespearean pickup line: 
-
-```
-from pyrizz import pyrizz
-
-print(pyrizz.get_ai_line('shakespeare'))
-```
-
-### rate_line(pickup_line)
-
-In this function, you can rate your very own pickup line out of 10 using openai. Simply type your pickup line and a rating will output: 
+In this function, you can retreive a generated pickup line using openai gpt-3.5 model based on any keyword that you suggest. In this example, it would output a Shakespearean pickup line: 
 
 ```
 from pyrizz import pyrizz
+import openai 
 
-print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.'))
+openai.api_key = "..."
+print(pyrizz.get_ai_line("Shakespeare", openai))
 ```
 
+### rate_line(pickup_line, your_openai_key)
+
+In this function, you can rate your very own pickup line out of 10 using openai gpt-3.5 model. Simply type your pickup line and a rating will output: 
+
+```
+from pyrizz import pyrizz
+import openai 
+
+openai.api_key = "..."
+print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.', openai))
+```
+
+Note: Please make sure you are using `openai==0.28.1`. 
 ### create_line(template_number, words)
 
 In this function, if you're new to pickup lines, you can create your very own pickup using some of our templates!
-- **template_number** - You need to input a template number (0-39). You can find out the templates by calling the list_templates() function: `print(pyrizz.list_templates())`. This way you can see how the templates look like, how many words you need to include and which one you like!
+- **template_number** - You need to input a template number (0-39). You can find out the templates by calling the list_templates() function: `templates = pyrizz.list_templates()`. This way you can see how the templates look like, how many words you need to include and which one you like! You can print these templates like this: 
+```
+for idx, template in enumerate(templates, 1):
+    print(f"Template {idx}: {template}")
+```
 - **words** - You need to input a list of all the words, for example if you need to input 2 words: `words = ["word1", "word2"]`
 
 This function returns your line with some lovely ASCII art as well! Enjoy!
