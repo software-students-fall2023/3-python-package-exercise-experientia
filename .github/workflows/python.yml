@@ -22,7 +22,7 @@ jobs:
           pip install --user pipenv
           pipenv --python ${{ matrix.python-version }}
           pipenv install pytest
-          pipenv install --dev  
+          pipenv install
 
       - name: Turn on 'editable' mode
         run: |

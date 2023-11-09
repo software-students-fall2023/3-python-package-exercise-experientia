@@ -98,19 +98,27 @@ class Tests:
     def test_rate_line_format(self):
         actual = pyrizz.rate_line("Do you come with Wi-Fi? Because I'm really feeling a connection.")
         assert re.match(r'\d+/10 - .+', actual) is not None
-    
+
+     
+    def test_create_line_invalid_template_number(self, capsys):
+        with patch('builtins.input', side_effect=["21"]):
+            pyrizz.create_line()
+            captured = capsys.readouterr()
+            assert "Template number out of range. Please choose between 1 and 20." in captured.out
+
+    def test_create_line_invalid_value_input(self, capsys):
+        with patch('builtins.input', side_effect=["abc"]):
+            pyrizz.create_line()
+            captured = capsys.readouterr()
+            assert "Please enter a valid number." in captured.out
+
+    def test_create_line_not_enough_words(self, capsys):
+        with patch('builtins.input', side_effect=["17", "test"]):
+            result = pyrizz.create_line()
+            captured = capsys.readouterr()
+            assert "Not enough words provided for the placeholders." in captured.out
+     
     # Tests for user input validation 
     def test_is_line_valid_length(self):
         long_line = "x" * 141  
         assert not pyrizz.is_line_valid(long_line), "Expected the line to be flagged as too long."
-    
-    @patch("builtins.input", side_effect=["1", "word1, word2"])
-    def test_get_user_input_for_line(self, mock_input):
-        template_number, words = pyrizz.get_user_input_for_line()
-        assert template_number == 0
-        assert words == ["word1", "word2"]
-        
-    def test_create_line_invalid_template_number(self):
-        _, message = pyrizz.create_line(999, ["word1", "word2"])
-        assert message == "Template number out of range. Please choose between 0 and {}.".format(len(pyrizz.templates) - 1)
-    

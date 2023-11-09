@@ -24,8 +24,7 @@ def main():
         print("2. Get a category-specific random pick-up line (romantic, clever, geeky, dev)")
         print("3. Have AI generate a pick-up line in your chosen category / language (no more than 50 characters)")
         print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
-        print("5. Create your line with one of our templates with randomly selected ASCII art.")
-        print("6. List available templates for pick-up lines.\n")
+        print("5. Create your very own pickup line!.\n")
         print("!! Type Q to quit !!\n")
 
         print("Enter your choice: ")
@@ -64,15 +63,7 @@ def main():
             print("\n" + pyrizz.rate_line(pickup_line), end = "\n\n")
 
         elif user_input == "5": 
-            template_number, words = pyrizz.get_user_input_for_line()
-            line = pyrizz.create_line(template_number, words)
-            if line:
-                print("\nHere's your custom pick-up line:")
-                print(line)
-
-        elif user_input == "6":
-            print("Here are the available templates:")
-            pyrizz.list_templates()
+            pyrizz.create_line()
 
         elif user_input == "q" or user_input == "Q":
             break
