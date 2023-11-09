@@ -82,7 +82,6 @@ class Tests:
         expected = "Please specify a category that is less than 50 characters."
         assert actual.strip() == expected.strip()
 
-
     # Tests if the input for ai line actually results in a string
     def test_get_ai_line_str(self):
         actual = pyrizz.get_ai_line("test")
