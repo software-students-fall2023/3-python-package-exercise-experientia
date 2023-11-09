@@ -74,9 +74,7 @@ class Tests:
     def test_get_ai_line_empty(self):
         helper = Helper
         mock_client = helper.create_get_mock()
-
         actual = pyrizz.get_ai_line("", mock_client)
-        print(actual)
         expected = "Please specify a category."
         assert actual.strip() == expected.strip()
 
@@ -84,9 +82,7 @@ class Tests:
     def test_get_ai_line_long(self):
         helper = Helper
         mock_client = helper.create_get_mock()
-
         actual = pyrizz.get_ai_line("This is a very long category that is definitely more than 50 characters long.", mock_client)
-        print(actual)
         expected = "Please specify a category that is less than 50 characters."
         assert actual.strip() == expected.strip()
 
@@ -94,60 +90,45 @@ class Tests:
     def test_get_ai_line_str(self):
         helper = Helper
         mock_client = helper.create_get_mock()
-
         actual = pyrizz.get_ai_line("test", mock_client)
-        print(actual)
         assert isinstance(actual, str)
 
     # Tests if the rate line is empty
     def test_rate_line_empty(self):
         helper = Helper
         mock_client = helper.create_rate_mock()
-
-        actual = pyrizz.rate_line("", mock_client)
-        print(actual)
+        actual = pyrizz.rate_line("", mock_client)  
         assert actual == "No pickup line? You gotta use our other features before you come here buddy."
 
     # Tests if the rate line function follows a specific format
     def test_rate_line_format(self):
         helper = Helper
         mock_client = helper.create_rate_mock()
-
         actual = pyrizz.rate_line("Do you come with Wi-Fi? Because I'm really feeling a connection.", mock_client)
-        print(actual)
         assert re.match(r'\d+/10 - .+', actual) is not None
 
     #Tests if the rate line function returns 
     def test_rate_line_gibberish(self):
         helper = Helper
         mock_client = helper.create_rate_mock()
-
         actual = pyrizz.rate_line("jwrkf", mock_client)
-        print(actual)
         assert re.match(r'.+', actual) is not None
-     
-    def test_create_line_invalid_template_number(self, capsys):
-        with patch('builtins.input', side_effect=["21"]):
-            pyrizz.create_line()
-            captured = capsys.readouterr()
-            assert "Template number out of range. Please choose between 1 and 20." in captured.out
-
-    def test_create_line_invalid_value_input(self, capsys):
-        with patch('builtins.input', side_effect=["abc"]):
-            pyrizz.create_line()
-            captured = capsys.readouterr()
-            assert "Please enter a valid number." in captured.out
-
-    def test_create_line_not_enough_words(self, capsys):
-        with patch('builtins.input', side_effect=["17", "test"]):
-            result = pyrizz.create_line()
-            captured = capsys.readouterr()
-            assert "Not enough words provided for the placeholders." in captured.out
      
     # Tests for user input validation 
     def test_is_line_valid_length(self):
         long_line = "x" * 141  
         assert not pyrizz.is_line_valid(long_line), "Expected the line to be flagged as too long."
+        
+    @patch("builtins.input", side_effect=["1", "word1, word2"])
+    def test_get_user_input_for_line(self, mock_input):
+        template_number, words = pyrizz.get_user_input_for_line()
+        assert template_number == 0
+        assert words == ["word1", "word2"]
+        
+    def test_create_line_invalid_template_number(self):
+        _, message = pyrizz.create_line(999, ["word1", "word2"])
+        assert message == "Template number out of range. Please choose between 0 and {}.".format(len(pyrizz.templates) - 1)
+
 
 class Helper:
     def create_get_mock():
