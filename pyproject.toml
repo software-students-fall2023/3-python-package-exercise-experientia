@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyrizz"
 description = "A package where users can receive pick up lines, rate pickup lines and add pickup lines"
-version = "1.0.3"
+version = "0.0.91"
 authors = [
   { name="Aditya Pandhare", email="adityapandhare44@gmail.com" },  
   { name="Anzhelika Nastashchuk", email="anzhelika.nastashchuk@gmail.com" },  
-  { name="Baani Pasrija", email="baanipasrija25@gmail.com" },  
+  { name="Baani Pasrsija", email="baanipasrija25@gmail.com" },  
   { name="Zander Chen", email="ccczy2002@gmail.com" }
 ]
 license = { file = "LICENSE" }

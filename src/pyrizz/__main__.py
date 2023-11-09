@@ -1,4 +1,5 @@
-import pyrizz.pyrizz as pyrizz
+import pyrizz as pyrizz
+import openai
 
 """Main function for PyRizz."""
 
@@ -16,6 +17,7 @@ print("         \|____|/                                               ")
 print("\n")
 
 def main():
+    openai_client = openai
     print("Welcome to PyRizz! Your journey to getting a date begins here...\n")
 
     while True:    
@@ -26,6 +28,9 @@ def main():
         print("4. Have AI rate your pick-up line out of 10. Test it on AI before trying it on a human! ;)")
         print("5. Create your line with one of our templates with randomly selected ASCII art.")
         print("6. List available templates for pick-up lines.\n")
+        
+        print("7. Enter your API key to use AI functionality.\n")
+        
         print("!! Type Q to quit !!\n")
 
         print("Enter your choice: ")
@@ -56,12 +61,12 @@ def main():
         elif user_input == "3":
             print("Enter a category / language: ")
             category = input("> ")
-            print("\n" + pyrizz.get_ai_line(category), end = "\n\n")
+            print("\n" + pyrizz.get_ai_line(category, openai_client), end = "\n\n")
         
         elif user_input == "4":
             print("Type your pickup line: ")
             pickup_line = input("> ")
-            print("\n" + pyrizz.rate_line(pickup_line), end = "\n\n")
+            print("\n" + pyrizz.rate_line(pickup_line, openai_client), end = "\n\n")
 
         elif user_input == "5": 
             template_number, words = pyrizz.get_user_input_for_line()
@@ -74,6 +79,17 @@ def main():
             print("Here are the available templates:")
             pyrizz.list_templates()
 
+        elif user_input == "7":
+            print("Please enter your API key.")
+            user_api_key = input("> ")
+            try:
+                openai_client.api_key = user_api_key
+                openai_client.Model.list()
+                print("Successful. You can use AI functionality now!\n")
+            except openai_client.error.AuthenticationError as err:
+                print(err)
+            print()
+
         elif user_input == "q" or user_input == "Q":
             break
         
@@ -81,7 +97,7 @@ def main():
             print("\nInvalid Response.")
         
         while True:
-            user_cont = input("Would you like to try again? (y/n): ")
+            user_cont = input("Would you like to continue? (y/n): ")
             if user_cont in ["y", "n"]:
                 break
             else:
