@@ -66,9 +66,8 @@ In this function, if you're new to pickup lines, you can create your very own pi
 ```
 from pyrizz import pyrizz
 
-print(pyrizz.create_line(template_number, words))
+print(pyrizz.create_line())
 ```
-Then this function returns your line with some random ASCII art. 
 
 You can access our example file which utilizes all of these functions with an awesome user interface: 
 [Example File](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/blob/main/src/pyrizz/__main__.py)
