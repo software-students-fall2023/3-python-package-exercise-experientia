@@ -230,7 +230,7 @@ templates =  [
 ]
 
 pickuplines = {
-    'dev_lines': dev_lines,
+    'dev': dev_lines,
     'romantic': romantic_lines,
     'clever': clever_lines,
     'geeky': geeky_lines,
