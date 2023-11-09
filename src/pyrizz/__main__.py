@@ -40,17 +40,23 @@ def main():
             print("3 - Geeky")
             print("4 - Developer Lines")
             category_index = input("> ")
-            category_index = int(category_index) 
-            if category_index in range(1, 4):
-                if(category_index == 1): 
-                    category_val = "romantic"
-                elif(category_index == 2): 
-                    category_val = "clever"
-                elif(category_index == 3):
-                    category_val = "geeky"
-                elif(category_index == 4):
-                    category_val = "dev"
-                print("\n" + pyrizz.get_random_category_line(category_val), end = "\n\n")
+            try:
+                category_index = int(category_index)
+                if category_index in range(1, 5):
+                    if category_index == 1:
+                        category_val = "romantic"
+                    elif category_index == 2:
+                        category_val = "clever"
+                    elif category_index == 3:
+                        category_val = "geeky"
+                    elif category_index == 4:
+                        category_val = "dev"
+                    print("\n" + pyrizz.get_random_category_line(category_val), end="\n\n")
+                else:
+                    print("Invalid Input")
+            except ValueError:
+                print("Invalid Input. Please enter a valid number.")
+
         
         elif user_input == "3":
             print("Enter a category / language: ")

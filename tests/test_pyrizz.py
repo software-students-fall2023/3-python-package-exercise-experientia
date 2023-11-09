@@ -94,6 +94,11 @@ class Tests:
         actual = pyrizz.rate_line("")
         assert actual == "No pickup line? You gotta use our other features before you come here buddy."
 
+    # Tests if the rate line has some random input, then the ai will output some random characters. 
+    def test_rate_line_random(self):
+        actual = pyrizz.rate_line("kerj")
+        assert re.match(r'.+', actual) is not None
+
     # Tests if the rate line function follows a specific format
     def test_rate_line_format(self):
         actual = pyrizz.rate_line("Do you come with Wi-Fi? Because I'm really feeling a connection.")
