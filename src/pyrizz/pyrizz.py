@@ -5,6 +5,7 @@ import json
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
 
+
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
 
 def get_lines(category='all'): 
@@ -52,7 +53,6 @@ def rate_line(pickup_line, client) -> str:
                 messages =
                     [{"role": "user", "content": f"Rate this pickup line out of 10 (whole numbers only): {pickup_line} In your response, STRICTLY follow the format of (nothing else): rating/10 - snazzy comment."},]
             )
-
             message = response.choices[0]['message']
             ai_rating_response = "{}".format(message['content'])
             return ai_rating_response

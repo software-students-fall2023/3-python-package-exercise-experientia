@@ -2,9 +2,11 @@ import pytest
 import pathlib
 import sys
 import re
+import unittest
 from unittest.mock import Mock, patch
 from unittest.mock import patch, MagicMock, mock_open
 import openai
+from openai import openai_object
 sys.path.append(f"{pathlib.Path(__file__).parent.resolve()}/../src")
 from pyrizz import pyrizz
 
@@ -69,35 +71,57 @@ class Tests:
         assert isinstance(actual, str)
         assert len(actual) > 0
 
-
     # Tests if the input for ai line is empty
     def test_get_ai_line_empty(self):
-        actual = pyrizz.get_ai_line("")
+        helper = Helper
+        mock_client = helper.create_openai_mock()
+
+        actual = pyrizz.get_ai_line("", mock_client)
         expected = "Please specify a category."
         assert actual.strip() == expected.strip()
 
     # Tests if the input is way too long
     def test_get_ai_line_long(self):
-        actual = pyrizz.get_ai_line("This is a very long category that is definitely more than 50 characters long.")
+        helper = Helper
+        mock_client = helper.create_openai_mock()
+
+        actual = pyrizz.get_ai_line("This is a very long category that is definitely more than 50 characters long.", mock_client)
         expected = "Please specify a category that is less than 50 characters."
         assert actual.strip() == expected.strip()
 
+
     # Tests if the input for ai line actually results in a string
     def test_get_ai_line_str(self):
-        actual = pyrizz.get_ai_line("test")
-        assert isinstance(actual, str)
+        # Create a dictionary resembling the expected OpenAI response
+        helper = Helper
+        mock_client = helper.create_openai_mock()
 
+        actual = pyrizz.get_ai_line("test", mock_client)
+        assert isinstance(actual, str)
 
     # Tests if the rate line is empty
     def test_rate_line_empty(self):
-        actual = pyrizz.rate_line("")
+        helper = Helper
+        mock_client = helper.create_openai_mock()
+
+        actual = pyrizz.rate_line("", mock_client)
         assert actual == "No pickup line? You gotta use our other features before you come here buddy."
 
     # Tests if the rate line function follows a specific format
     def test_rate_line_format(self):
-        actual = pyrizz.rate_line("Do you come with Wi-Fi? Because I'm really feeling a connection.")
+        helper = Helper
+        mock_client = helper.create_openai_mock()
+
+        actual = pyrizz.rate_line("Do you come with Wi-Fi? Because I'm really feeling a connection.", mock_client)
         assert re.match(r'\d+/10 - .+', actual) is not None
 
+    #Tests if the rate line function returns 
+    def test_rate_line_gibberish(self):
+        helper = Helper
+        mock_client = helper.create_openai_mock()
+
+        actual = pyrizz.rate_line("jwrkf", mock_client)
+        assert re.match(r'.+', actual) is not None
      
     def test_create_line_invalid_template_number(self, capsys):
         with patch('builtins.input', side_effect=["21"]):
@@ -121,3 +145,20 @@ class Tests:
     def test_is_line_valid_length(self):
         long_line = "x" * 141  
         assert not pyrizz.is_line_valid(long_line), "Expected the line to be flagged as too long."
+
+class Helper:
+    def create_openai_mock():
+        mock_client = MagicMock()
+
+        mock_response = {
+            "choices": [
+                {
+                    "message": {
+                        "content": "Test content"
+                    }
+                }
+            ]
+        }
+        mock_client.ChatCompletion.create.return_value = MagicMock(**mock_response)
+
+        return mock_client
