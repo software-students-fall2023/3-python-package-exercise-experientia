@@ -9,6 +9,70 @@ Looking to add a dash of humor to your day or spark some laughter in your conver
 - [Baani Pasrija](https://github.com/zeepxnflrp)
 - [Zander Chen](https://github.com/ccczy-czy)
 
+# Key Features
+
+In our package we have 5 special functions which you can use to enhance your dating life: 
+
+### get_random_line()
+
+In this function, you can retreive any random pickup line amongst all the categories that we have: 
+
+```
+from pyrizz import pyrizz
+
+print(pyrizz.get_random_line())
+```
+
+### get_random_category_line(category)
+
+In this function, you can retreive any random pickup line from a specific category. We have 4 main categories to choose from: 
+- 'romantic': Will output a random romantic pickup line
+- 'clever': Will output a random clever pickup line
+- 'geeky': Will output a random geeky pickup line
+- 'dev': Will output a random specially handselected pickup line from the developers
+
+```
+from pyrizz import pyrizz
+
+print(pyrizz.get_random_categoryy_line('romantic'))
+print(pyrizz.get_random_categoryy_line('clever'))
+print(pyrizz.get_random_categoryy_line('geeky'))
+print(pyrizz.get_random_categoryy_line('dev'))
+```
+
+### get_ai_line(keyword)
+
+In this function, you can retreive a generated pickup line using openai based on any keyword that you suggest. In this example, it would output a Shakespearean pickup line: 
+
+```
+from pyrizz import pyrizz
+
+print(pyrizz.get_ai_line('shakespeare'))
+```
+
+### rate_line(pickup_line)
+
+In this function, you can rate your very own pickup line out of 10 using openai. Simply type your pickup line and a rating will output: 
+
+```
+from pyrizz import pyrizz
+
+print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.'))
+```
+
+### create_line()
+
+In this function, if you're new to pickup lines, you can create your very own pickup using some of our templates!
+```
+from pyrizz import pyrizz
+
+print(pyrizz.create_line())
+```
+
+You can access our example file which utilizes all of these functions with an awesome user interface: 
+[Example File](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/blob/main/src/pyrizz/__main__.py)
+
+To access it simply run: `pipenv run python -m pyrizz` on the directory of the repository when cloned. 
 
 # Contributing
 
@@ -29,7 +93,7 @@ We love contributions from everyone. By participating in this project, you agree
     Change into the cloned directory:
 
     ```shell
-    cd pyrizz
+    cd 3-python-package-exercise-experientia
     ```
 
 3. **Install pipenv**:
