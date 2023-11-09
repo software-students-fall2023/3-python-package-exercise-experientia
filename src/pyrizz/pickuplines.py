@@ -229,15 +229,10 @@ templates =  [
     "Do you know what my shirt is made of? It's made of boyfriend {}."
 ]
 
-user_lines = []
-
 pickuplines = {
-    'dev_lines': dev_lines,
-    'romantic_lines': romantic_lines,
-    'clever_lines': clever_lines,
-    'geeky_lines': geeky_lines,
-    'user_lines': user_lines,
-    'all': dev_lines + romantic_lines + clever_lines + geeky_lines + user_lines
+    'dev': dev_lines,
+    'romantic': romantic_lines,
+    'clever': clever_lines,
+    'geeky': geeky_lines,
+    'all': dev_lines + romantic_lines + clever_lines + geeky_lines
 }
-
-user_templates = templates

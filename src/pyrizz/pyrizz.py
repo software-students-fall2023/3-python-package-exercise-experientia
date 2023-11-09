@@ -4,7 +4,8 @@ import pathlib
 import json
 from dotenv import load_dotenv
 import openai
-from pyrizz.pickuplines import pickuplines, user_templates
+from pyrizz.pickuplines import pickuplines
+from pyrizz.templates import templates
 
 load_dotenv()
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
@@ -12,8 +13,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def get_lines(category='all'): 
     if category not in pickuplines:
-        print("Category does not exist!")
-        return
+        return ("Category does not exist!")
 
     else: 
         return pickuplines[category]
@@ -67,28 +67,14 @@ def rate_line(pickup_line) -> str:
     except Exception as err:
         return str(err)
 
-def add_user_line():
-    templates_file_path = PROJECT_ROOT + '/src/data/templates.json'
-
-    try:
-        with open(templates_file_path, 'r', encoding='utf-8') as file:
-            templates = json.load(file)["templates"]
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON: {e}")
-        return
-    except FileNotFoundError:
-        print(f"The file {templates_file_path} was not found.")
-        return
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return
-
+def create_line():
     print("Choose a template number (1-20):")
     try:
         template_number = int(input("> ")) - 1  
         if not (0 <= template_number < len(templates)):
             print("Template number out of range. Please choose between 1 and 20.")
             return
+    
     except ValueError:
         print("Please enter a valid number.")
         return
@@ -105,53 +91,27 @@ def add_user_line():
 
     try:
         user_line = templates[template_number].format(*words)
+    
     except IndexError:
         print("Not enough words provided for the placeholders.")
         return
+    
     except Exception as e:
         print(f"An unexpected formatting error occurred: {e}")
         return
     
     if is_line_valid(user_line): 
         try:
-            print("Here's your custom pick-up line:")
-            print(user_line)
-            # Add the line somehow
-            print("Line added")
+            print("\nLooks great! Try it on a human now and meet your match!")
+            return(user_line)
             
         except Exception as e:
             print(f"An error occurred while inserting the line into the database: {e}")
     else: 
-        print("Your pick-up line doesn't pass our checks.")
+        return("Your pick-up line doesn't pass our checks.")
 
 def is_line_valid(user_line):
     if len(user_line) > 140:
-        print("Your pick-up line is too long.")
-        return False
-
-    if is_offensive(user_line):
-        print("Your pick-up line may be offensive.")
         return False
     
     return True
-
-def is_offensive(text):
-    try:
-        response = openai.Completion.create(
-            model="content-filter-alpha",
-            prompt="<|endoftext|>"+text+"\n--\nLabel:", 
-            temperature=0,  
-            max_tokens=1 
-        )
-        content_filter_response = response["choices"][0]["text"].strip()
-
-        if content_filter_response in ("2", "1"):  
-            return True
-        else:
-            return False
-    except openai.error.OpenAIError as e:
-        print(f"OpenAIError occurred: {e}")
-        return False 
-    except Exception as e:
-        print(f"An unexpected error occurred when checking for offensive content: {e}")
-        return False
