@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import openai
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
-from better_profanity import profanity
+#from better_profanity import profanity
 import random 
 
 load_dotenv()
@@ -123,16 +123,16 @@ def is_line_valid(user_line):
         print("Your pick-up line is too long.")
         return False
 
-    if is_offensive(user_line):
-        return False
+    #if is_offensive(user_line):
+        #return False
     
     return True
 
-def is_offensive(text):
-    if profanity.contains_profanity(text):
-        return True
-    else:
-        return False
+#def is_offensive(text):
+#    if profanity.contains_profanity(text):
+#        return True
+#    else:
+#        return False
 
 def list_templates():
     for idx, template in enumerate(templates, 1):
