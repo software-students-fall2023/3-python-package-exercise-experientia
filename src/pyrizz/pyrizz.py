@@ -2,14 +2,10 @@ import os
 import random
 import pathlib
 import json
-from dotenv import load_dotenv
-import openai
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
 
-load_dotenv()
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/../.."
-openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def get_lines(category='all'): 
     if category not in pickuplines:
@@ -26,11 +22,11 @@ def get_random_category_line(category='all'):
     category_pickupline = get_lines(category)
     return random.choice(category_pickupline)
 
-def get_ai_line(category) -> str:
+def get_ai_line(category, client) -> str:
     try:
         if (category != "" and len(category) <= 50):
-            response = openai.ChatCompletion.create(
-                model = os.getenv('OPENAI_MODEL'),
+            response = client.ChatCompletion.create(
+                model = "gpt-3.5-turbo",
                 messages =
                     [{"role": "user", "content": f"I need a {category} pick-up line."},]
             )
@@ -48,11 +44,11 @@ def get_ai_line(category) -> str:
     except Exception as err:
         return str(err)
 
-def rate_line(pickup_line) -> str:
+def rate_line(pickup_line, client) -> str:
     try:
         if (pickup_line != ""):
-            response = openai.ChatCompletion.create(
-                model = os.getenv('OPENAI_MODEL'),
+            response = client.ChatCompletion.create(
+                model = "gpt-3.5-turbo",
                 messages =
                     [{"role": "user", "content": f"Rate this pickup line out of 10 (whole numbers only): {pickup_line} In your response, STRICTLY follow the format of (nothing else): rating/10 - snazzy comment."},]
             )
