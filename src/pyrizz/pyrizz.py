@@ -71,8 +71,13 @@ def load_ascii_art(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         content = file.read()
     ascii_art_pieces = content.split('[End]')
-    ascii_art_pieces = [piece.strip()[len('[Start]'):].strip() for piece in ascii_art_pieces if piece.strip()]
-    return ascii_art_pieces
+    cleaned_ascii_art_pieces = []
+    for piece in ascii_art_pieces:
+        if '[Start]' in piece:
+            start_index = piece.find('[Start]') + len('[Start]')
+            art_piece = piece[start_index:]
+            cleaned_ascii_art_pieces.append(art_piece)
+    return cleaned_ascii_art_pieces
 
 def create_line(template_number, words):
     if not (0 <= template_number < len(templates)):
@@ -97,11 +102,11 @@ def create_line(template_number, words):
         return None, "Your line doesn't pass our checks. Sorry!"
 
 def get_user_input_for_line():
-    print("Choose a template number (0-{}):".format(len(templates)))
-    template_number = int(input("> ")) - 1
+    print("Choose a template number (0-{}):".format(len(templates)-1))
+    template_number = int(input("> ")) 
 
     if template_number not in range(len(templates)):
-        print("Invalid template number. Please choose a number between 0 and {}.".format(len(templates) - 1))
+        print("Invalid template number. Please choose a number between 0 and {}.".format(len(templates)-1))
         return None, None  
 
     template_to_show = templates[template_number]
@@ -133,6 +138,4 @@ def is_line_valid(user_line):
 #        return False
 
 def list_templates():
-    for idx, template in enumerate(templates, 1):
-        print(f"Template {idx}: {template}")
     return templates

@@ -1,0 +1,3 @@
+MANIFEST.in
+recursive-include src/pyrizz/data *
+recursive-include src/pyrizz/scripts * 

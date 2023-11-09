@@ -430,15 +430,6 @@
             "markers": "python_version >= '3.8'",
             "version": "==1.3.0"
         },
-        "pyrizz": {
-            "hashes": [
-                "sha256:0eea82bdb1f115c58f448fb52cf6a812cc05bf8505eed988658c0513f9d8af9a",
-                "sha256:eed764cd70ae2016430dc32fc869aeada3bd45bbe6b6a262973f7cc74b48953c"
-            ],
-            "index": "testpypi",
-            "markers": "python_version >= '3.7'",
-            "version": "==0.0.666"
-        },
         "pytest": {
             "hashes": [
                 "sha256:0d009c083ea859a71b76adf7c1d502e4bc170b80a8ef002da5806527b9591fac",
