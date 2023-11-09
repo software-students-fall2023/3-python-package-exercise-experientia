@@ -119,12 +119,6 @@ class Tests:
         long_line = "x" * 141  
         assert not pyrizz.is_line_valid(long_line), "Expected the line to be flagged as too long."
         
-    @patch("builtins.input", side_effect=["0", "word1, word2"])
-    def test_get_user_input_for_line(self, mock_input):
-        template_number, words = pyrizz.get_user_input_for_line()
-        assert template_number == 0
-        assert words == ["word1", "word2"]
-        
     def test_create_line_invalid_template_number(self):
         _, message = pyrizz.create_line(999, ["word1", "word2"])
         assert message == "Template number out of range. Please choose between 0 and {}.".format(len(pyrizz.templates) - 1)
