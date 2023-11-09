@@ -1,4 +1,4 @@
-import pyrizz as pyrizz
+import pyrizz.pyrizz as pyrizz
 import openai
 
 """Main function for PyRizz."""

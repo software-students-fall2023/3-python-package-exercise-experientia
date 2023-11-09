@@ -1,8 +1,8 @@
 import os
 import random
 import pathlib
-from pickuplines import pickuplines
-from templates import templates
+from pyrizz.pickuplines import pickuplines
+from pyrizz.templates import templates
 
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/"
 
