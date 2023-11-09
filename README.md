@@ -34,10 +34,10 @@ In this function, you can retreive any random pickup line from a specific catego
 ```
 from pyrizz import pyrizz
 
-print(pyrizz.get_random_categoryy_line('romantic'))
-print(pyrizz.get_random_categoryy_line('clever'))
-print(pyrizz.get_random_categoryy_line('geeky'))
-print(pyrizz.get_random_categoryy_line('dev'))
+print(pyrizz.get_random_category_line('romantic'))
+print(pyrizz.get_random_category_line('clever'))
+print(pyrizz.get_random_category_line('geeky'))
+print(pyrizz.get_random_category_line('dev'))
 ```
 
 ### get_ai_line(keyword, your_openai_key)
