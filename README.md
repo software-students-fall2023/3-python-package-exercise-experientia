@@ -107,7 +107,7 @@ Note: Please make sure you are using `openai==0.28.1`.
 You can access our example file which utilizes all of these functions with an awesome user interface: 
 [Example File](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/blob/main/src/pyrizz/__main__.py)
 
-To access it simply run: `pipenv run python -m pyrizz` on the directory of the repository when cloned. 
+To run our main file simply run: `python3 -m pyrizz` on the terminal. 
 
 # Contributing
 
