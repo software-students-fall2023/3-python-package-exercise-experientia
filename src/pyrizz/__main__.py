@@ -1,5 +1,4 @@
 import pyrizz.pyrizz as pyrizz
-import openai
 
 """Main function for PyRizz."""
 
@@ -17,11 +16,11 @@ print("         \|____|/                                               ")
 print("\n")
 
 def main():
-    openai_client = openai
-    print("Welcome to PyRizz! Your journey to getting a date begins here...\n")
+    openai_client = None
+    print("Welcome to PyRizz! Your journey to getting a date begins here...")
 
-    while True:    
-        print("What would you like to do today?\n")
+    while True: 
+        print("\nWhat would you like to do today?\n")
         print("1. Get a random pick-up line")
         print("2. Get a category-specific random pick-up line (romantic, clever, geeky, dev)")
         print("3. Create your line with one of our templates with randomly selected ASCII art.")
@@ -46,51 +45,56 @@ def main():
             print("3 - Geeky")
             print("4 - Developer Lines")
             category_index = input("> ")
-            category_index = int(category_index) 
-            if category_index in range(1, 4):
-                if(category_index == 1): 
-                    category_val = "romantic"
-                elif(category_index == 2): 
-                    category_val = "clever"
-                elif(category_index == 3):
-                    category_val = "geeky"
-                elif(category_index == 4):
-                    category_val = "dev"
-                print("\n" + pyrizz.get_random_category_line(category_val), end = "\n\n")
-        
-        elif user_input == "3":
-            print("Enter a category / language: ")
-            category = input("> ")
-            print("\n" + pyrizz.get_ai_line(category, openai_client), end = "\n\n")
-        
-        elif user_input == "4":
-            print("Type your pickup line: ")
-            pickup_line = input("> ")
-            print("\n" + pyrizz.rate_line(pickup_line, openai_client), end = "\n\n")
+            if (category_index.isdigit()): 
+                category_index = int(category_index) 
+                if(category_index in range(1, 5)):
+                    if(category_index == 1): 
+                        category_val = "romantic"
+                    elif(category_index == 2): 
+                        category_val = "clever"
+                    elif(category_index == 3):
+                        category_val = "geeky"
+                    elif(category_index == 4):
+                        category_val = "dev"
+                    print("\n" + pyrizz.get_random_category_line(category_val), end = "\n\n")
+                else: 
+                    print("Please make sure it is a number from 1-4. \n")
+            else: 
+                print("Not a valid input! \n")
 
-        elif user_input == "5": 
+        elif user_input == "3": 
             template_number, words = pyrizz.get_user_input_for_line()
             line = pyrizz.create_line(template_number, words)
             if line:
                 print("\nHere's your custom pick-up line:")
                 print(line)
 
-        elif user_input == "6":
+        elif user_input == "4":
             print("Here are the available templates:")
             templates = pyrizz.list_templates()
             for idx, template in enumerate(templates, 1):
                 print(f"Template {idx}: {template}")
 
-        elif user_input == "7":
+        elif user_input == "5":
             print("Please enter your API key.")
             user_api_key = input("> ")
-            try:
-                openai_client.api_key = user_api_key
-                openai_client.Model.list()
-                print("Successful. You can use AI functionality now!\n")
-            except openai_client.error.AuthenticationError as err:
-                print(err)
-            print()
+            openai_client = pyrizz.init_openai(user_api_key)
+        
+        elif user_input == "6":
+            if openai_client:
+                print("Enter a category / language: ")
+                category = input("> ")
+                print("\n" + pyrizz.get_ai_line(category, openai_client), end = "\n\n")
+            else:
+                print("\nYou need to enter an API key first. Select 5!\n")
+        
+        elif user_input == "7":
+            if openai_client:
+                print("Type your pickup line: ")
+                pickup_line = input("> ")
+                print("\n" + pyrizz.rate_line(pickup_line, openai_client), end = "\n\n")
+            else:
+                print("\nYou need to enter an API key first. Select 5!\n")
 
         elif user_input == "q" or user_input == "Q":
             break
