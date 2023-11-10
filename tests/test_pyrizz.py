@@ -119,10 +119,42 @@ class Tests:
     def test_is_line_valid_length(self):
         long_line = "x" * 141  
         assert not pyrizz.is_line_valid(long_line), "Expected the line to be flagged as too long."
-        
+    
+    # Test for invalid tempalte number
     def test_create_line_invalid_template_number(self):
         _, message = pyrizz.create_line(999, ["word1", "word2"])
         assert message == "Template number out of range. Please choose between 0 and {}.".format(len(pyrizz.templates) - 1)
+    
+    # Test for incorrect word count 
+    def test_create_line_incorrect_word_count(self):
+        templates = ["Template with one placeholder: {}"]
+        with patch('pyrizz.templates', new=templates):
+            _, message = pyrizz.create_line(0, ["word1", "word2"])
+            expected_message = "Incorrect number of words provided for the placeholders. Expected 1, got 2."
+            assert message == expected_message
+    
+    # Test for non-integer template number
+    @patch('builtins.input', side_effect=["not_an_integer"])
+    def test_get_user_input_for_line_noninteger(self, mock_input):
+        with patch('pyrizz.templates', new=["Some template"]):
+            template_number, words = pyrizz.get_user_input_for_line()
+            assert template_number is None and words is None
+    
+    # Test for out of range template numebr
+    @patch('builtins.input', side_effect=["99", "word1, word2"])
+    def test_get_user_input_for_line_out_of_range(self, mock_input):
+        templates = ["Template 0"]
+        with patch('pyrizz.templates', new=templates):
+            template_number, words = pyrizz.get_user_input_for_line()
+            assert template_number is None and words is None
+    
+    # Test for incorrect number of words provided
+    @patch('builtins.input', side_effect=["0", "word1, word2, word3"])
+    def test_get_user_input_for_line_incorrect_word_count(self, mock_input):
+        templates = ["Template with two placeholders: {}, {}"]
+        with patch('pyrizz.templates', new=templates):
+            template_number, words = pyrizz.get_user_input_for_line()
+            assert template_number is None and words is None
 
 
 class Helper:
