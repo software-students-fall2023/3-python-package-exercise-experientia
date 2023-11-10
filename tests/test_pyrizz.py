@@ -69,7 +69,8 @@ class Tests:
         actual = pyrizz.get_random_category_line("romantic")
         assert isinstance(actual, str)
         assert len(actual) > 0
-
+    
+    # Note: Not testing init_openai(key) because there is not any logic; just working on openai API functionality, authentication, and connection."""
     # Tests if the input for ai line is empty
     def test_get_ai_line_empty(self):
         helper = Helper

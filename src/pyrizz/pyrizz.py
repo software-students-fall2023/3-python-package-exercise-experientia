@@ -1,6 +1,7 @@
 import os
 import random
 import pathlib
+import openai
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
 
@@ -20,6 +21,16 @@ def get_random_line():
 def get_random_category_line(category='all'):
     category_pickupline = get_lines(category)
     return random.choice(category_pickupline)
+
+def init_openai(key):
+    try:
+        openai.api_key = key
+        openai.Model.list()
+        print("\nSuccessful. You can use AI functionality now.\n")
+        return openai
+    except openai.error.AuthenticationError as err:
+        print("\nAuthentication failed. Try entering a different API key or call on pyrizz.init_openai(your_key).\n")
+        return err
 
 def get_ai_line(category, client) -> str:
     try:
