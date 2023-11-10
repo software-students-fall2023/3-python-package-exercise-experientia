@@ -97,7 +97,7 @@ from pyrizz import pyrizz
 import openai
 
 client = pyrizz.init_openai("your_api_key")
-print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.', openai))
+print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.', client))
 ```
 
 Note: Please make sure you are using `openai==0.28.1`. 
