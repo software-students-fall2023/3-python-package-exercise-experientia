@@ -1,6 +1,15 @@
 ![Workflow Status](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/actions/workflows/python.yml/badge.svg)
 
 # PyRizz: Your Source for Playful Pickup Lines
+
+[PyRizz PyPi Link](https://test.pypi.org/project/pyrizz/)
+
+[PyRizz GitHub Link](https://github.com/software-students-fall2023/3-python-package-exercise-experientia)
+
+```
+pip install -i https://test.pypi.org/simple/ pyrizz
+```
+
 Looking to add a dash of humor to your day or spark some laughter in your conversations? PyRizz is here to help! PyRizz is a delightful Python package that provides a collection of randomly generated pickup lines in various categories. Whether you're looking for a clever one-liner, a cheesy quip, or a charming compliment, PyRizz has you covered.
 
 # Contributors 
@@ -30,6 +39,7 @@ In this function, you can retreive any random pickup line from a specific catego
 - 'clever': Will output a random clever pickup line
 - 'geeky': Will output a random geeky pickup line
 - 'dev': Will output a random specially handselected pickup line from the developers
+- 'all': Will output a random pickup line across ALL categories (basically get_random_line())
 
 ```
 from pyrizz import pyrizz
@@ -38,6 +48,7 @@ print(pyrizz.get_random_category_line('romantic'))
 print(pyrizz.get_random_category_line('clever'))
 print(pyrizz.get_random_category_line('geeky'))
 print(pyrizz.get_random_category_line('dev'))
+print(pyrizz.get_random_category_line('all'))
 ```
 
 ### create_line(template_number, words)
@@ -70,10 +81,10 @@ In this function, you can retreive a generated pickup line using openai gpt-3.5 
 
 ```
 from pyrizz import pyrizz
-import openai 
+import openai
 
-openai.api_key = "..."
-print(pyrizz.get_ai_line("Shakespeare", openai))
+client = pyrizz.init_openai("your_api_key")
+print(pyrizz.get_ai_line("shakespeare", client))
 ```
 
 ### rate_line(pickup_line, your_openai_key)
@@ -82,9 +93,9 @@ In this function, you can rate your very own pickup line out of 10 using openai 
 
 ```
 from pyrizz import pyrizz
-import openai 
+import openai
 
-openai.api_key = "..."
+client = pyrizz.init_openai("your_api_key")
 print(pyrizz.rate_line('Are you from Tennesse? Cause you're the only 10 I see.', openai))
 ```
 
@@ -159,9 +170,36 @@ We love contributions from everyone. By participating in this project, you agree
 
     After making your changes and verifying the functionality, commit your changes and push your branch to GitHub. Then, submit a pull request to the main branch for review.
 
+## Testing your __main__.py file locally: 
+
+If you wish to test and run the `__main__.py` file locally (not test and run the `__main__.py` from the package), all you have to do is uncomment the bottom imports from the `pyrizz.py` and `__main__.py` file and comment the top ones as shown below: 
+
+**pyrizz.py:**
+```
+# Uncomment when using pytest and uploading the package to PyPi
+# from pyrizz.pickuplines import pickuplines
+# from pyrizz.templates import templates
+
+# Uncomment when testing the __main__.py file locally
+from pickuplines import pickuplines
+from templates import templates
+```
+
+**__main__.py**:
+```
+# Uncomment when using pytest and uploading the package to PyPi
+# import pyrizz.pyrizz as pyrizz
+
+# Uncomment when testing the __main__.py file locally
+import pyrizz as pyrizz
+```
+Then you can run the command: `python3 src/pyrizz/__main__.py` to execute the main file locally. 
+
+As always, when you wish to finally test the program and repackage it, you must comment the imports you just uncommented to run the main locally, and uncomment the top imports as they are necessary for testing and packaging. 
+
 ### Reporting Bugs
 
-Report bugs at https://github.com/yourusername/pyrizz/issues.
+Report bugs at [Issues](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/issues).
 
 If you are reporting a bug, please include:
 
@@ -173,7 +211,7 @@ If you are reporting a bug, please include:
 
 If you're proposing enhancements or new features:
 
-* Open a new issue at https://github.com/yourusername/pyrizz/issues, describing the enhancement.
+* Open a new issue [here](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/issues), describing the enhancement.
 * Include the 'enhancement' label on the issue.
 
 Thank you for your interest in rizz! 
