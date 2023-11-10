@@ -2,8 +2,14 @@ import os
 import random
 import pathlib
 import openai
+
+# Uncomment when using pytest and uploading the package to PyPi
 from pyrizz.pickuplines import pickuplines
 from pyrizz.templates import templates
+
+# Uncomment when testing the __main__.py file locally
+# from pickuplines import pickuplines
+# from templates import templates
 
 PROJECT_ROOT = f"{pathlib.Path(__file__).parent.resolve()}/"
 
