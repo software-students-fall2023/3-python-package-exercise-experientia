@@ -1,4 +1,8 @@
+# Uncomment when using pytest and uploading the package to PyPi
 import pyrizz.pyrizz as pyrizz
+
+# Uncomment when testing the __main__.py file locally
+# import pyrizz as pyrizz
 
 """Main function for PyRizz."""
 
@@ -36,7 +40,7 @@ def main():
         user_input = input("> ")
 
         if user_input == "1":
-            print("\n" + pyrizz.get_random_line(), end = "\n\n")
+            print("\n" + pyrizz.get_random_line(), end = "\n")
 
         elif user_input == "2":
             print("Select a category: ")
@@ -56,7 +60,7 @@ def main():
                         category_val = "geeky"
                     elif(category_index == 4):
                         category_val = "dev"
-                    print("\n" + pyrizz.get_random_category_line(category_val), end = "\n\n")
+                    print("\n" + pyrizz.get_random_category_line(category_val), end = "\n")
                 else: 
                     print("Please make sure it is a number from 1-4. \n")
             else: 
@@ -67,7 +71,7 @@ def main():
             line = pyrizz.create_line(template_number, words)
             if line:
                 print("\nHere's your custom pick-up line:")
-                print(line)
+                print(line + "\n")
 
         elif user_input == "4":
             print("Here are the available templates:")
