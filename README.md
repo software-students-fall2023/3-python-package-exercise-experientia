@@ -1,4 +1,5 @@
 ![Workflow Status](https://github.com/software-students-fall2023/3-python-package-exercise-experientia/actions/workflows/python.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/pyrizz.svg)](https://badge.fury.io/py/pyrizz)
 
 # PyRizz: Your Source for Playful Pickup Lines
 
