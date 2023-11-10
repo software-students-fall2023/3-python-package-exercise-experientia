@@ -2,12 +2,12 @@
 
 # PyRizz: Your Source for Playful Pickup Lines
 
-[PyRizz PyPi Link](https://test.pypi.org/project/pyrizz/)
+[PyRizz PyPi Link](https://pypi.org/project/pyrizz/)
 
 [PyRizz GitHub Link](https://github.com/software-students-fall2023/3-python-package-exercise-experientia)
 
 ```
-pip install -i https://test.pypi.org/simple/ pyrizz
+pip install pyrizz
 ```
 
 Looking to add a dash of humor to your day or spark some laughter in your conversations? PyRizz is here to help! PyRizz is a delightful Python package that provides a collection of randomly generated pickup lines in various categories. Whether you're looking for a clever one-liner, a cheesy quip, or a charming compliment, PyRizz has you covered.
